@@ -6,27 +6,27 @@
 - 📮 `ggbdpq@gmail.com`（求职邮箱）
 - 二次元 · 技术宅 · 我的幸运数字是 7
 
-![PRs merged](https://img.shields.io/badge/PRs%20merged%20to%20upstream-31-brightgreen) ![PRs in review](https://img.shields.io/badge/PRs%20in%20review-42-blue) ![Issues filed](https://img.shields.io/badge/Issues%20filed-16-orange)
+![PRs merged](https://img.shields.io/badge/PRs%20merged%20to%20upstream-35-brightgreen) ![PRs in review](https://img.shields.io/badge/PRs%20in%20review-46-blue) ![Issues filed](https://img.shields.io/badge/Issues%20filed-16-orange)
 
 ## 🌱 开源贡献
 
-数字来自 GitHub API（截至 2026-10-01），只统计被维护者合并的 PR 和仍在审核中的 PR——每一条都能点开看。
+数字来自 GitHub API（截至 2026-10-02），只统计被维护者合并的 PR 和仍在审核中的 PR——每一条都能点开看。
 
 | 项目 | Stars | PR 已合并 | PR 在途 | Issue |
 |---|---:|---:|---:|---:|
 | [apache/maka](https://github.com/apache/maka) | 5.7k | **27** | 12 | 7 |
-| [router-for-me/CLIProxyAPI](https://github.com/router-for-me/CLIProxyAPI) | 53.7k | 2 | 9 | – |
-| [farion1231/cc-switch](https://github.com/farion1231/cc-switch) | 139.3k | – | 4 | – |
-| [CherryHQ/cherry-studio](https://github.com/CherryHQ/cherry-studio) | 52.3k | 1 | 3 | – |
-| [stablyai/orca](https://github.com/stablyai/orca) | 82.8k | – | 5 | – |
-| [multica-ai/multica](https://github.com/multica-ai/multica) | 51.8k | – | 4 | – |
-| [anomalyco/opencode](https://github.com/anomalyco/opencode) | 211.2k | – | 2 | – |
-| [jlcodes99/cockpit-tools](https://github.com/jlcodes99/cockpit-tools) | 18.6k | – | 3 | – |
+| [router-for-me/CLIProxyAPI](https://github.com/router-for-me/CLIProxyAPI) | 53.8k | 2 | 9 | – |
+| [farion1231/cc-switch](https://github.com/farion1231/cc-switch) | 139.5k | – | 4 | – |
+| [CherryHQ/cherry-studio](https://github.com/CherryHQ/cherry-studio) | 52.3k | **5** | 2 | – |
+| [stablyai/orca](https://github.com/stablyai/orca) | 83.5k | – | 6 | – |
+| [multica-ai/multica](https://github.com/multica-ai/multica) | 51.8k | – | 6 | – |
+| [anomalyco/opencode](https://github.com/anomalyco/opencode) | 211.4k | – | 3 | – |
+| [jlcodes99/cockpit-tools](https://github.com/jlcodes99/cockpit-tools) | 18.6k | – | 4 | – |
 
 另外向 [microsoft/vscode](https://github.com/microsoft/vscode)、[Tencent/tdesign-vue](https://github.com/Tencent/tdesign-vue)、[sheinsight/shineout](https://github.com/sheinsight/shineout)、[chengazhen/cursor-auto-free](https://github.com/chengazhen/cursor-auto-free) 提交过 9 个 issue。
 
 - **Apache Maka**（孵化中，本地优先的 AI agent workspace）：39 个 PR（27 已合并、12 在审）覆盖 runtime、TUI、cli、文档审计等模块，另报 7 个 issue——这是我投入最多的社区，也是我理解 agent 架构的主战场。
-- **Cherry Studio**（52k★ AI 桌面客户端）：已合并知识库选择记忆的修复（会话保存时记住上次使用的库）。
+- **Cherry Studio**（52k★ AI 桌面客户端）：5 个 PR 已合并——知识库选择记忆（会话保存时记住上次使用的库）、tooltip 悬停反馈死循环修复、apiGateway 思考 token 细分上报等。
 
 ## 🛠 我的项目
 
