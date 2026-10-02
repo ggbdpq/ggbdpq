@@ -8,27 +8,23 @@
 
 ## 🌱 开源贡献
 
-截至 2026-10-02，以下 12 个公开上游仓库中：**34 个 PR 已合并、50 个 PR 开放、15 个 PR 关闭未合并、16 个 issue**。仅统计作者 `ggbdpq`，不包含个人仓或其他仓库；开放状态不等于已获审核。GitHub 状态会继续变化，这是指定时点快照。
+截至 2026-10-03，以下 5 个公开上游仓库中：**36 个 PR 已合并、41 个 PR 开放、16 个 PR 关闭未合并**。
 
 | 项目 | PR 已合并 | PR 开放 | PR 关闭未合并 | Issue |
 |---|---:|---:|---:|---:|
 | [apache/maka](https://github.com/apache/maka) | 27 | 12 | 6 | 7 |
-| [router-for-me/CLIProxyAPI](https://github.com/router-for-me/CLIProxyAPI) | 2 | 10 | 7 | 0 |
-| [farion1231/cc-switch](https://github.com/farion1231/cc-switch) | 0 | 6 | 0 | 0 |
-| [CherryHQ/cherry-studio](https://github.com/CherryHQ/cherry-studio) | 5 | 2 | 0 | 0 |
-| [stablyai/orca](https://github.com/stablyai/orca) | 0 | 7 | 1 | 0 |
-| [multica-ai/multica](https://github.com/multica-ai/multica) | 0 | 6 | 0 | 0 |
-| [anomalyco/opencode](https://github.com/anomalyco/opencode) | 0 | 3 | 1 | 0 |
-| [jlcodes99/cockpit-tools](https://github.com/jlcodes99/cockpit-tools) | 0 | 4 | 0 | 0 |
-| [microsoft/vscode](https://github.com/microsoft/vscode) | 0 | 0 | 0 | 1 |
-| [Tencent/tdesign-vue](https://github.com/Tencent/tdesign-vue) | 0 | 0 | 0 | 4 |
-| [sheinsight/shineout](https://github.com/sheinsight/shineout) | 0 | 0 | 0 | 3 |
-| [chengazhen/cursor-auto-free](https://github.com/chengazhen/cursor-auto-free) | 0 | 0 | 0 | 1 |
+| [router-for-me/CLIProxyAPI](https://github.com/router-for-me/CLIProxyAPI) | 2 | 8 | 9 | 0 |
+| [farion1231/cc-switch](https://github.com/farion1231/cc-switch) | 1 | 9 | 0 | 0 |
+| [CherryHQ/cherry-studio](https://github.com/CherryHQ/cherry-studio) | 5 | 3 | 0 | 0 |
+| [stablyai/orca](https://github.com/stablyai/orca) | 1 | 9 | 1 | 0 |
 
 复核方式：[已合并](https://github.com/search?q=is%3Apr+author%3Aggbdpq+is%3Amerged&type=pullrequests)、[开放](https://github.com/search?q=is%3Apr+author%3Aggbdpq+is%3Aopen&type=pullrequests)、[关闭未合并](https://github.com/search?q=is%3Apr+author%3Aggbdpq+is%3Aclosed+is%3Aunmerged&type=pullrequests)、[issue](https://github.com/search?q=is%3Aissue+author%3Aggbdpq&type=issues)，各查询再按表中仓库筛选；不把全站检索总数当作本表统计。
 
-- **[Apache Maka（孵化中）](https://incubator.apache.org/projects/maka.html)**：参与具体问题修复、测试和文档审计。已合并的 [#4815](https://github.com/apache/maka/pull/4815) 涉及结构化消息准入与重放可见性；我是模块贡献者，不是整体架构负责人。
-- **Cherry Studio**：贡献已合并的交互与使用量相关修复。[作者 PR](https://github.com/CherryHQ/cherry-studio/pulls?q=is%3Apr+author%3Aggbdpq+is%3Amerged)可逐条查阅。
+- **[Apache Maka（孵化中）](https://incubator.apache.org/projects/maka.html)**：投入最多的社区，27 个已合并 PR 覆盖 runtime、runtime-host、desktop、cli 的缺陷修复、测试预算钉界与 flaky 基线定性，以及 10 篇文档组对照实现的审计。代表工作：[#4815](https://github.com/apache/maka/pull/4815) 让 structured-only Messages 被准入并保持模型可见，配合 [#5118](https://github.com/apache/maka/pull/5118) 修好结构化历史在编辑重发 / rewind 场景被误拒的问题。
+- **CLIProxyAPI**（聚合多家模型供应商的本地代理网关，Go）：2 个已合并 PR——translator 层把 tool-result 的 cache_control 上移到块（[#5432](https://github.com/router-for-me/CLIProxyAPI/pull/5432)）、xAI grok 客户端钉定版本升至 1.0.44（[#6252](https://github.com/router-for-me/CLIProxyAPI/pull/6252)）。上游迭代很快，先后有 4 单交付后被同题实现吸收取代而关闭。
+- **cc-switch**（Rust 的 AI 供应商切换工具）：已合并 [#7741](https://github.com/farion1231/cc-switch/pull/7741)——DeepSeek 系上游把思考内容以内联 `<think>/<thinking>` 标签混进正文，为其 Claude 流式路径实现跨 chunk 安全的流首剥离状态机。
+- **Cherry Studio**（52k★ AI 桌面客户端）：5 个已合并 PR——保存会话到知识库时记住上次选用的库（[#21193](https://github.com/CherryHQ/cherry-studio/pull/21193)）、tooltip 悬停反馈死循环修复（[#21214](https://github.com/CherryHQ/cherry-studio/pull/21214)）、DeepSeek harness 就绪探测接受相对 Location（[#21271](https://github.com/CherryHQ/cherry-studio/pull/21271)）、apiGateway 兼容适配器上报 reasoning / 用量 token 细分（[#21275](https://github.com/CherryHQ/cherry-studio/pull/21275)、[#21276](https://github.com/CherryHQ/cherry-studio/pull/21276)）。[作者 PR](https://github.com/CherryHQ/cherry-studio/pulls?q=is%3Apr+author%3Aggbdpq+is%3Amerged)可逐条查阅。
+- **orca**（AI IDE）：已合并 [#24164](https://github.com/stablyai/orca/pull/24164)——`.rake`、`Guardfile`、`Podfile` 等 Ruby 生态文件没有语法高亮，为编辑器语言识别补齐扩展名 / 文件名映射；修法落在手维护的语言探测层而不是生成器产物，避免被覆盖。
 
 ## 🛠 我的项目
 
