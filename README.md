@@ -8,18 +8,18 @@
 
 ## 🌱 开源贡献
 
-截至 2026-10-02，以下 12 个公开上游仓库中：**34 个 PR 已合并、50 个 PR 开放、15 个 PR 关闭未合并、16 个 issue**。仅统计作者 `ggbdpq`，不包含个人仓或其他仓库；开放状态不等于已获审核。GitHub 状态会继续变化，这是指定时点快照。
+截至 2026-10-03，以下 12 个公开上游仓库中：**35 个 PR 已合并、55 个 PR 开放、17 个 PR 关闭未合并、16 个 issue**。仅统计作者 `ggbdpq`，不包含个人仓或其他仓库；开放状态不等于已获审核。GitHub 状态会继续变化，这是指定时点快照。
 
 | 项目 | PR 已合并 | PR 开放 | PR 关闭未合并 | Issue |
 |---|---:|---:|---:|---:|
 | [apache/maka](https://github.com/apache/maka) | 27 | 12 | 6 | 7 |
-| [router-for-me/CLIProxyAPI](https://github.com/router-for-me/CLIProxyAPI) | 2 | 10 | 7 | 0 |
-| [farion1231/cc-switch](https://github.com/farion1231/cc-switch) | 0 | 6 | 0 | 0 |
-| [CherryHQ/cherry-studio](https://github.com/CherryHQ/cherry-studio) | 5 | 2 | 0 | 0 |
-| [stablyai/orca](https://github.com/stablyai/orca) | 0 | 7 | 1 | 0 |
+| [router-for-me/CLIProxyAPI](https://github.com/router-for-me/CLIProxyAPI) | 2 | 8 | 9 | 0 |
+| [farion1231/cc-switch](https://github.com/farion1231/cc-switch) | 1 | 8 | 0 | 0 |
+| [CherryHQ/cherry-studio](https://github.com/CherryHQ/cherry-studio) | 5 | 3 | 0 | 0 |
+| [stablyai/orca](https://github.com/stablyai/orca) | 0 | 9 | 1 | 0 |
 | [multica-ai/multica](https://github.com/multica-ai/multica) | 0 | 6 | 0 | 0 |
 | [anomalyco/opencode](https://github.com/anomalyco/opencode) | 0 | 3 | 1 | 0 |
-| [jlcodes99/cockpit-tools](https://github.com/jlcodes99/cockpit-tools) | 0 | 4 | 0 | 0 |
+| [jlcodes99/cockpit-tools](https://github.com/jlcodes99/cockpit-tools) | 0 | 6 | 0 | 0 |
 | [microsoft/vscode](https://github.com/microsoft/vscode) | 0 | 0 | 0 | 1 |
 | [Tencent/tdesign-vue](https://github.com/Tencent/tdesign-vue) | 0 | 0 | 0 | 4 |
 | [sheinsight/shineout](https://github.com/sheinsight/shineout) | 0 | 0 | 0 | 3 |
