@@ -1,58 +1,54 @@
 # 你好，我是小七 (ggbdpq) 👋
 
-**高级前端工程师 · 8 年前端，重度 AI 工具实践者。**
+**高级前端工程师 · 2018 年起从事 Web 开发，实践 AI 应用与 Agent 工程。**
 
-- 📍 深圳 · 正在看机会：**AI 前端工程师**（高级前端 / 前端 AI 应用方向）
+- 📍 深圳 · 正在看机会：**AI 应用 / Agent 工程（Web + Node）**，也关注高级前端岗位
 - 📮 `ggbdpq@gmail.com`（求职邮箱）
 - 二次元 · 技术宅 · 我的幸运数字是 7
 
-![PRs merged](https://img.shields.io/badge/PRs%20merged%20to%20upstream-31-brightgreen) ![PRs in review](https://img.shields.io/badge/PRs%20in%20review-42-blue) ![Issues filed](https://img.shields.io/badge/Issues%20filed-16-orange)
-
 ## 🌱 开源贡献
 
-数字来自 GitHub API（截至 2026-10-01），只统计被维护者合并的 PR 和仍在审核中的 PR——每一条都能点开看。
+截至 2026-10-02，以下 12 个公开上游仓库中：**34 个 PR 已合并、50 个 PR 开放、15 个 PR 关闭未合并、16 个 issue**。仅统计作者 `ggbdpq`，不包含个人仓或其他仓库；开放状态不等于已获审核。GitHub 状态会继续变化，这是指定时点快照。
 
-| 项目 | Stars | PR 已合并 | PR 在途 | Issue |
+| 项目 | PR 已合并 | PR 开放 | PR 关闭未合并 | Issue |
 |---|---:|---:|---:|---:|
-| [apache/maka](https://github.com/apache/maka) | 5.7k | **27** | 12 | 7 |
-| [router-for-me/CLIProxyAPI](https://github.com/router-for-me/CLIProxyAPI) | 53.7k | 2 | 9 | – |
-| [farion1231/cc-switch](https://github.com/farion1231/cc-switch) | 139.3k | – | 4 | – |
-| [CherryHQ/cherry-studio](https://github.com/CherryHQ/cherry-studio) | 52.3k | 1 | 3 | – |
-| [stablyai/orca](https://github.com/stablyai/orca) | 82.8k | – | 5 | – |
-| [multica-ai/multica](https://github.com/multica-ai/multica) | 51.8k | – | 4 | – |
-| [anomalyco/opencode](https://github.com/anomalyco/opencode) | 211.2k | – | 2 | – |
-| [jlcodes99/cockpit-tools](https://github.com/jlcodes99/cockpit-tools) | 18.6k | – | 3 | – |
+| [apache/maka](https://github.com/apache/maka) | 27 | 12 | 6 | 7 |
+| [router-for-me/CLIProxyAPI](https://github.com/router-for-me/CLIProxyAPI) | 2 | 10 | 7 | 0 |
+| [farion1231/cc-switch](https://github.com/farion1231/cc-switch) | 0 | 6 | 0 | 0 |
+| [CherryHQ/cherry-studio](https://github.com/CherryHQ/cherry-studio) | 5 | 2 | 0 | 0 |
+| [stablyai/orca](https://github.com/stablyai/orca) | 0 | 7 | 1 | 0 |
+| [multica-ai/multica](https://github.com/multica-ai/multica) | 0 | 6 | 0 | 0 |
+| [anomalyco/opencode](https://github.com/anomalyco/opencode) | 0 | 3 | 1 | 0 |
+| [jlcodes99/cockpit-tools](https://github.com/jlcodes99/cockpit-tools) | 0 | 4 | 0 | 0 |
+| [microsoft/vscode](https://github.com/microsoft/vscode) | 0 | 0 | 0 | 1 |
+| [Tencent/tdesign-vue](https://github.com/Tencent/tdesign-vue) | 0 | 0 | 0 | 4 |
+| [sheinsight/shineout](https://github.com/sheinsight/shineout) | 0 | 0 | 0 | 3 |
+| [chengazhen/cursor-auto-free](https://github.com/chengazhen/cursor-auto-free) | 0 | 0 | 0 | 1 |
 
-另外向 [microsoft/vscode](https://github.com/microsoft/vscode)、[Tencent/tdesign-vue](https://github.com/Tencent/tdesign-vue)、[sheinsight/shineout](https://github.com/sheinsight/shineout)、[chengazhen/cursor-auto-free](https://github.com/chengazhen/cursor-auto-free) 提交过 9 个 issue。
+复核方式：[已合并](https://github.com/search?q=is%3Apr+author%3Aggbdpq+is%3Amerged&type=pullrequests)、[开放](https://github.com/search?q=is%3Apr+author%3Aggbdpq+is%3Aopen&type=pullrequests)、[关闭未合并](https://github.com/search?q=is%3Apr+author%3Aggbdpq+is%3Aclosed+is%3Aunmerged&type=pullrequests)、[issue](https://github.com/search?q=is%3Aissue+author%3Aggbdpq&type=issues)，各查询再按表中仓库筛选；不把全站检索总数当作本表统计。
 
-- **Apache Maka**（孵化中，本地优先的 AI agent workspace）：39 个 PR（27 已合并、12 在审）覆盖 runtime、TUI、cli、文档审计等模块，另报 7 个 issue——这是我投入最多的社区，也是我理解 agent 架构的主战场。
-- **Cherry Studio**（52k★ AI 桌面客户端）：已合并知识库选择记忆的修复（会话保存时记住上次使用的库）。
+- **[Apache Maka（孵化中）](https://incubator.apache.org/projects/maka.html)**：参与具体问题修复、测试和文档审计。已合并的 [#4815](https://github.com/apache/maka/pull/4815) 涉及结构化消息准入与重放可见性；我是模块贡献者，不是整体架构负责人。
+- **Cherry Studio**：贡献已合并的交互与使用量相关修复。[作者 PR](https://github.com/CherryHQ/cherry-studio/pulls?q=is%3Apr+author%3Aggbdpq+is%3Amerged)可逐条查阅。
 
 ## 🛠 我的项目
 
-### 核心
-
-| 项目 | 说明 |
+| 项目 | 公开实现与验证边界 |
 |---|---|
-| [qoder-proxy-api](https://github.com/ggbdpq/qoder-proxy-api) | **AI Protocol Layer**（v0.3.0 冻结）：本地三链路协议网关——默认适配 Qoder 客户端 Gateway 私有协议（PAT→jobToken→签名 SSE），保留 Cloud Agents 官方 API 与本地 qodercli 子进程链路；Canonical Request/Event 契约隔离上游与协议演进，对外暴露 OpenAI Chat / Responses / Anthropic Messages（流式）。89 项零凭证离线测试 + 四级验证矩阵，非 Qoder 官方项目 |
-| [agent-hub](https://github.com/ggbdpq/agent-hub) | **AI Application Layer**（v0.1.1 冻结）：花语智能体——流式 Agent Event Pipeline（跨 chunk 安全的 SSE 解码）、A2UI 结构化渲染（AI 输出白名单契约）、Evidence 证据溯源、异步任务恢复（刷新按 taskId 续追到终态）四主线；契约 → API → 浏览器端到端三层 CI，演示视频见 Release |
-| [coding-agent](https://github.com/ggbdpq/coding-agent) | **Agent Runtime Layer**（v0.6.0 Conformance Edition）：one spec, five runtimes——七篇行为规范（Agent Loop / Plan Mode / apply_patch / 权限闸门…）的 TypeScript / Python / Go / Rust / C# 五实现，可执行一致性套件以 4 场景 × 5 runtime 在 CI 跨版验证等价（fail closed + 红操演练） |
+| [qoder-proxy-api](https://github.com/ggbdpq/qoder-proxy-api) | **协议适配层**：[v0.3.0](https://github.com/ggbdpq/qoder-proxy-api/releases/tag/v0.3.0)。三类上游通过 Canonical Request/Event 接入 Chat、Responses、Messages 的文本接口；包含 89 项无凭证离线测试，可用 `node --test` 复现。Gateway 保持实验性，当前不宣称完整工具循环或多模态兼容 |
+| [agent-hub](https://github.com/ggbdpq/agent-hub) | **AI 应用工程演示**：[v0.1.1](https://github.com/ggbdpq/agent-hub/releases/tag/v0.1.1)。花卉选购场景，跨 chunk SSE、固定 schema 卡片、fixture 依据展示、页面刷新后按 taskId 续追；[公开三层 CI](https://github.com/ggbdpq/agent-hub/actions/runs/36803101833)。演示不等于推荐质量、可信度算法或后端重启续跑 |
+| [coding-agent](https://github.com/ggbdpq/coding-agent) | **Agent Runtime 实验**：[v0.6.0](https://github.com/ggbdpq/coding-agent/releases/tag/v0.6.0)。七主题行为规范、五语言实现、四个离线一致性场景，对选定观测使用统一期望判定；不宣称全行为等价、系统沙箱或补丁 I/O 事务原子性 |
+
+这三个项目各自研究协议、应用和 Runtime，尚未证明它们组成一条集成产品链路。公开仓的代码、测试与 Release 是可查看的证据；历史公开 CI 与本轮局部验证分别说明范围。
 
 ### 更多
 
-| 项目 | 说明 |
-|---|---|
-| [cursor-loc](https://github.com/ggbdpq/cursor-loc) | 为 **Cursor IDE 专有界面**提供简体中文汉化：覆盖 Settings、Agent、Composer、Review 等 Microsoft 官方语言包无法触及的区域 |
-| [agent-skills](https://github.com/ggbdpq/agent-skills) | 个人沉淀的 agent skills 公开合集：多端前端开发、技术写作、构建验证等可安装技能（陆续上架中） |
-| language (lang-go) 🔒 | 自创的确定性、类型化编程语言：源码可转译到 Go 与 JS 执行，具备规范化静态/动态语义与独立第二实现验证，151 个跨实现 Conformance Case（私有仓，面试可演示） |
-| syntax-party 🔒 | 中英双语的五后端语言对照学习站，灵感来自 component-party.dev：同一主题多种语言并排对照（私有仓） |
+- [cursor-loc](https://github.com/ggbdpq/cursor-loc)：Cursor 界面汉化项目。
+- [agent-skills](https://github.com/ggbdpq/agent-skills)：个人 agent skills 公开合集。
 
 ## ⚙️ 技术栈
 
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white) ![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=black) ![Taro](https://img.shields.io/badge/Taro-2B6CB0?logo=taro&logoColor=white) ![Node.js](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white) ![Zustand](https://img.shields.io/badge/Zustand-000000?logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white) ![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=black) ![Taro](https://img.shields.io/badge/Taro-2B6CB0?logo=taro&logoColor=white) ![Node.js](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white) ![Zustand](https://img.shields.io/badge/Zustand-000000?logo=zustand&logoColor=white)
 
-8 年多端一线经验：H5、小程序、App 内嵌 WebView，从业务交付到模块级工程化（构建、规范、性能）都趟过。现在把 AI coding agent 编进日常工作流——贡献 agent 项目、写 agent skills、拆 agent 源码，用 AI 交付 AI 相关的需求。
+React / Vue / TypeScript、Taro、Node.js、HTTP / SSE、状态管理与契约测试。从多端业务交付延伸到 AI 应用工程，关注模型输出进入产品后的数据、状态、失败路径和验证。
 
----
-
-⭐️ 感谢所有上游项目的维护者，review 使人进步。
+⭐️ 感谢上游维护者的评审与反馈。
