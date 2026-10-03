@@ -8,14 +8,15 @@
 
 ## 🌱 开源贡献
 
-截至 2026-10-03，以下 4 个公开上游仓库中：**35 个 PR 已合并、31 个 PR 开放、15 个 PR 关闭未合并**。
+截至 2026-10-03，以下 5 个公开上游仓库中：**36 个 PR 已合并、41 个 PR 开放、16 个 PR 关闭未合并**。
 
 | 项目 | PR 已合并 | PR 开放 | PR 关闭未合并 | Issue |
 |---|---:|---:|---:|---:|
 | [apache/maka](https://github.com/apache/maka) | 27 | 12 | 6 | 7 |
 | [router-for-me/CLIProxyAPI](https://github.com/router-for-me/CLIProxyAPI) | 2 | 8 | 9 | 0 |
-| [farion1231/cc-switch](https://github.com/farion1231/cc-switch) | 1 | 8 | 0 | 0 |
+| [farion1231/cc-switch](https://github.com/farion1231/cc-switch) | 1 | 9 | 0 | 0 |
 | [CherryHQ/cherry-studio](https://github.com/CherryHQ/cherry-studio) | 5 | 3 | 0 | 0 |
+| [stablyai/orca](https://github.com/stablyai/orca) | 1 | 9 | 1 | 0 |
 
 复核方式：[已合并](https://github.com/search?q=is%3Apr+author%3Aggbdpq+is%3Amerged&type=pullrequests)、[开放](https://github.com/search?q=is%3Apr+author%3Aggbdpq+is%3Aopen&type=pullrequests)、[关闭未合并](https://github.com/search?q=is%3Apr+author%3Aggbdpq+is%3Aclosed+is%3Aunmerged&type=pullrequests)、[issue](https://github.com/search?q=is%3Aissue+author%3Aggbdpq&type=issues)，各查询再按表中仓库筛选；不把全站检索总数当作本表统计。
 
@@ -23,6 +24,7 @@
 - **CLIProxyAPI**（聚合多家模型供应商的本地代理网关，Go）：2 个已合并 PR——translator 层把 tool-result 的 cache_control 上移到块（[#5432](https://github.com/router-for-me/CLIProxyAPI/pull/5432)）、xAI grok 客户端钉定版本升至 1.0.44（[#6252](https://github.com/router-for-me/CLIProxyAPI/pull/6252)）。上游迭代很快，先后有 4 单交付后被同题实现吸收取代而关闭。
 - **cc-switch**（Rust 的 AI 供应商切换工具）：已合并 [#7741](https://github.com/farion1231/cc-switch/pull/7741)——DeepSeek 系上游把思考内容以内联 `<think>/<thinking>` 标签混进正文，为其 Claude 流式路径实现跨 chunk 安全的流首剥离状态机。
 - **Cherry Studio**（52k★ AI 桌面客户端）：5 个已合并 PR——保存会话到知识库时记住上次选用的库（[#21193](https://github.com/CherryHQ/cherry-studio/pull/21193)）、tooltip 悬停反馈死循环修复（[#21214](https://github.com/CherryHQ/cherry-studio/pull/21214)）、DeepSeek harness 就绪探测接受相对 Location（[#21271](https://github.com/CherryHQ/cherry-studio/pull/21271)）、apiGateway 兼容适配器上报 reasoning / 用量 token 细分（[#21275](https://github.com/CherryHQ/cherry-studio/pull/21275)、[#21276](https://github.com/CherryHQ/cherry-studio/pull/21276)）。[作者 PR](https://github.com/CherryHQ/cherry-studio/pulls?q=is%3Apr+author%3Aggbdpq+is%3Amerged)可逐条查阅。
+- **orca**（AI IDE）：已合并 [#24164](https://github.com/stablyai/orca/pull/24164)——`.rake`、`Guardfile`、`Podfile` 等 Ruby 生态文件没有语法高亮，为编辑器语言识别补齐扩展名 / 文件名映射；修法落在手维护的语言探测层而不是生成器产物，避免被覆盖。
 
 ## 🛠 我的项目
 
