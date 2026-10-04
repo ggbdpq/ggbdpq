@@ -1,0 +1,13 @@
+{
+  "merged_prs": 37,
+  "repositories": 6,
+  "languages": [
+    ["TypeScript", 36.2],
+    ["Rust", 13.8],
+    ["Python", 13.7],
+    ["JavaScript", 12.8],
+    ["C#", 12.2],
+    ["Go", 10.4],
+    ["Other", 0.6]
+  ]
+}
