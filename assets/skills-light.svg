@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="300" viewBox="0 0 880 300" role="img" aria-label="Multi-platform Frontend, AI Applications, Agent Tooling, Engineering. Languages: TypeScript 36.2%, Rust 13.8%, Python 13.7%, JavaScript 12.8%, C# 12.2%, Go 10.4%, Other 0.6%">
+<rect x="0.5" y="0.5" width="879" height="299" rx="14" fill="#f8fafc" stroke="#e2e8f0"/>
+<text x="32" y="44" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" letter-spacing="1" fill="#0369a1">WHAT I WORK ON</text>
+<text x="32" y="78" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#0f172a">Multi-platform Frontend</text>
+<text x="32" y="100" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="13" fill="#64748b">React 19 · Vue 3 · Taro · Mini-program / H5 · Electron</text>
+<text x="452" y="78" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#0f172a">AI Applications</text>
+<text x="452" y="100" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="13" fill="#64748b">Node.js · HTTP / SSE · structured UI · contract tests</text>
+<text x="32" y="140" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#0f172a">Agent Tooling</text>
+<text x="32" y="162" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="13" fill="#64748b">LLM gateways · coding agents · agent skills</text>
+<text x="452" y="140" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#0f172a">Engineering</text>
+<text x="452" y="162" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="13" fill="#64748b">TypeScript · Go · Python · pnpm · Oxlint / Oxfmt</text>
+<text x="32" y="185" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" letter-spacing="1" fill="#0369a1">OPEN SOURCE</text>
+<text x="150" y="185" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="13" fill="#64748b">38 upstream PRs merged · 27 in Apache Maka</text>
+<line x1="32" y1="200" x2="848" y2="200" stroke="#e2e8f0"/>
+<text x="32" y="228" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" letter-spacing="1" fill="#0369a1">LANGUAGES</text>
+<text x="848" y="228" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="11" fill="#cbd5e1">by code size across my public repositories</text>
+<clipPath id="bar"><rect x="32" y="242" width="816" height="8" rx="4"/></clipPath><g clip-path="url(#bar)">
+<rect x="32.0" y="242" width="295.9" height="8" fill="#3178c6"/>
+<rect x="327.4" y="242" width="113.1" height="8" fill="#dea584"/>
+<rect x="440.0" y="242" width="112.3" height="8" fill="#3572a5"/>
+<rect x="551.8" y="242" width="104.9" height="8" fill="#f1e05a"/>
+<rect x="656.2" y="242" width="100.1" height="8" fill="#178600"/>
+<rect x="755.8" y="242" width="85.4" height="8" fill="#00add8"/>
+<rect x="840.7" y="242" width="5.4" height="8" fill="#8b97a8"/>
+</g>
+<circle cx="36" cy="273" r="4" fill="#3178c6"/><text x="45" y="277" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="12" fill="#64748b">TypeScript 36.2%</text>
+<circle cx="171.6" cy="273" r="4" fill="#dea584"/><text x="180.6" y="277" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="12" fill="#64748b">Rust 13.8%</text>
+<circle cx="267.6" cy="273" r="4" fill="#3572a5"/><text x="276.6" y="277" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="12" fill="#64748b">Python 13.7%</text>
+<circle cx="376.8" cy="273" r="4" fill="#f1e05a"/><text x="385.8" y="277" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="12" fill="#64748b">JavaScript 12.8%</text>
+<circle cx="512.4" cy="273" r="4" fill="#178600"/><text x="521.4" y="277" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="12" fill="#64748b">C# 12.2%</text>
+<circle cx="595.1999999999999" cy="273" r="4" fill="#00add8"/><text x="604.1999999999999" y="277" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="12" fill="#64748b">Go 10.4%</text>
+<circle cx="677.9999999999999" cy="273" r="4" fill="#8b97a8"/><text x="686.9999999999999" y="277" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="12" fill="#64748b">Other 0.6%</text>
+</svg>
