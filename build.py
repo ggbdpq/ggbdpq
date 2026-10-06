@@ -154,7 +154,7 @@ def skills(t, data):
         parts.append(f'<text x="{x}" y="{y + 22}" font-family="{FONT}" font-size="13" fill="{t["muted"]}">{escape(" · ".join(items))}</text>')
 
     parts.append(f'<text x="32" y="185" font-family="{MONO}" font-size="11" letter-spacing="1" fill="{t["accent"]}">OPEN SOURCE</text>')
-    parts.append(f'<text x="150" y="185" font-family="{FONT}" font-size="13" fill="{t["muted"]}">38 upstream PRs merged · 27 in Apache Maka</text>')
+    parts.append(f'<text x="150" y="185" font-family="{FONT}" font-size="13" fill="{t["muted"]}">39 upstream PRs merged · 27 in Apache Maka</text>')
     parts.append(f'<line x1="32" y1="200" x2="{w - 32}" y2="200" stroke="{t["border"]}"/>')
     parts.append(f'<text x="32" y="228" font-family="{MONO}" font-size="11" letter-spacing="1" fill="{t["accent"]}">LANGUAGES</text>')
     parts.append(f'<text x="{w - 32}" y="228" text-anchor="end" font-family="{FONT}" font-size="11" fill="{t["faint"]}">by code size across my public repositories</text>')

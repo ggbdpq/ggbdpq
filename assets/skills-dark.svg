@@ -10,7 +10,7 @@
 <text x="452" y="140" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#e6edf3">Engineering</text>
 <text x="452" y="162" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="13" fill="#8b97a8">TypeScript · Go · Python · pnpm · Oxlint / Oxfmt</text>
 <text x="32" y="185" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" letter-spacing="1" fill="#7dd3fc">OPEN SOURCE</text>
-<text x="150" y="185" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="13" fill="#8b97a8">38 upstream PRs merged · 27 in Apache Maka</text>
+<text x="150" y="185" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="13" fill="#8b97a8">39 upstream PRs merged · 27 in Apache Maka</text>
 <line x1="32" y1="200" x2="848" y2="200" stroke="#222b38"/>
 <text x="32" y="228" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" letter-spacing="1" fill="#7dd3fc">LANGUAGES</text>
 <text x="848" y="228" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="11" fill="#4b5566">by code size across my public repositories</text>
