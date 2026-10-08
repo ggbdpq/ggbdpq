@@ -9,3 +9,15 @@
 - 🤖 **[coding-agent](https://github.com/ggbdpq/coding-agent)**：Agent Runtime · 一规范五语言（TS / Go / Rust / Python / C#）· [v0.6.0](https://github.com/ggbdpq/coding-agent/releases/tag/v0.6.0)
 - 🖥 **[cursor-loc](https://github.com/ggbdpq/cursor-loc)**：Cursor 界面汉化
 - 🧰 **[agent-skills](https://github.com/ggbdpq/agent-skills)**：agent skills 公开合集
+
+## 🌏 开源贡献
+
+**43 个 PR 被合并（GitHub 官方口径，其中 39 条为第三方上游贡献）** · 83 个在途评审（2026-10-08）· 覆盖 AI 工具链与开发效率赛道：
+
+- **[apache/maka](https://github.com/apache/maka)**（Incubating）— 27 merged：审计、修复、维护与性能方向
+- **[CherryHQ/cherry-studio](https://github.com/CherryHQ/cherry-studio)** — 7 merged
+- **[farion1231/cc-switch](https://github.com/farion1231/cc-switch)** · **[router-for-me/CLIProxyAPI](https://github.com/router-for-me/CLIProxyAPI)** — 各 2 merged
+- **[stablyai/orca](https://github.com/stablyai/orca)** — 1 merged
+- 其余 4 条：自研仓 [cursor-loc](https://github.com/ggbdpq/cursor-loc) 3 条、社区活动仓 nice-21day 1 条
+- 在途重点：[BerriAI/litellm](https://github.com/BerriAI/litellm)（3 单 CI 全绿）、[multica-ai/multica](https://github.com/multica-ai/multica)（9 单 open）、[jlcodes99/cockpit-tools](https://github.com/jlcodes99/cockpit-tools)（多单诊断被 v1.3.66 采纳致谢）
+

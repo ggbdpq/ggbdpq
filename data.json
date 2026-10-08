@@ -1,13 +1,37 @@
 {
-  "merged_prs": 37,
+  "contributions": 786,
+  "commits": 137,
+  "merged_prs": 43,
   "repositories": 6,
+  "followers": 5,
   "languages": [
-    ["TypeScript", 36.2],
-    ["Rust", 13.8],
-    ["Python", 13.7],
-    ["JavaScript", 12.8],
-    ["C#", 12.2],
-    ["Go", 10.4],
-    ["Other", 0.6]
+    [
+      "TypeScript",
+      36.1
+    ],
+    [
+      "Python",
+      14.2
+    ],
+    [
+      "Rust",
+      13.8
+    ],
+    [
+      "JavaScript",
+      12.7
+    ],
+    [
+      "C#",
+      12.2
+    ],
+    [
+      "Go",
+      10.4
+    ],
+    [
+      "Other",
+      0.6
+    ]
   ]
 }
