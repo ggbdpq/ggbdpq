@@ -12,7 +12,7 @@
   <img src="https://github-readme-stats.vercel.app/api?username=ggbdpq&show_icons=true&custom_title=ggbdpq's%20GitHub%20Stats" alt="ggbdpq's GitHub Stats">
 </picture>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="./assets/opensource-dark.svg"><img src="./assets/opensource-light.svg" alt="Merged pull requests by repository" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="./assets/opensource-dark.svg?v=20261010"><img src="./assets/opensource-light.svg?v=20261010" alt="Merged pull requests by repository" width="100%"></picture>
 
 ## 🛠 我的项目
 
