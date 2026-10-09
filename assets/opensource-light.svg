@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="246" viewBox="0 0 880 246" role="img" aria-label="Merged pull requests in third-party repos: maka 33, cherry-studio 8, cc-switch 3, CLIProxyAPI 2, orca 1, multica 1, magpie 1">
+<rect x="0.5" y="0.5" width="879" height="245" rx="14" fill="#f8fafc" stroke="#e2e8f0"/>
+<text x="32" y="40" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="11" letter-spacing="1" fill="#0369a1">MERGED PULL REQUESTS</text>
+<text x="848" y="40" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="11" fill="#cbd5e1">49 merged in 7 third-party repos</text>
+<text x="32" y="74" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#0f172a">maka</text>
+<rect x="150" y="66" width="660.0" height="8" rx="4" fill="#3b82f6"/>
+<text x="818.0" y="74" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" fill="#64748b">33</text>
+<text x="32" y="100" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#0f172a">cherry-studio</text>
+<rect x="150" y="92" width="160.0" height="8" rx="4" fill="#f59e0b"/>
+<text x="318.0" y="100" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" fill="#64748b">8</text>
+<text x="32" y="126" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#0f172a">cc-switch</text>
+<rect x="150" y="118" width="60.0" height="8" rx="4" fill="#10b981"/>
+<text x="218.0" y="126" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" fill="#64748b">3</text>
+<text x="32" y="152" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#0f172a">CLIProxyAPI</text>
+<rect x="150" y="144" width="40.0" height="8" rx="4" fill="#8b5cf6"/>
+<text x="198.0" y="152" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" fill="#64748b">2</text>
+<text x="32" y="178" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#0f172a">orca</text>
+<rect x="150" y="170" width="20.0" height="8" rx="4" fill="#ef4444"/>
+<text x="178.0" y="178" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" fill="#64748b">1</text>
+<text x="32" y="204" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#0f172a">multica</text>
+<rect x="150" y="196" width="20.0" height="8" rx="4" fill="#06b6d4"/>
+<text x="178.0" y="204" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" fill="#64748b">1</text>
+<text x="32" y="230" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#0f172a">magpie</text>
+<rect x="150" y="222" width="20.0" height="8" rx="4" fill="#ec4899"/>
+<text x="178.0" y="230" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="12" fill="#64748b">1</text>
+</svg>

@@ -16,6 +16,15 @@ NON_CODE = {"CSS", "SCSS", "HTML", "PLpgSQL", "Shell", "Dockerfile", "Makefile",
 LANG_COLORS = {"TypeScript": "#3178c6", "JavaScript": "#f1e05a", "Java": "#b07219", "Vue": "#41b883",
                "Go": "#00add8", "Rust": "#dea584", "Python": "#3572a5", "Kotlin": "#a97bff",
                "C#": "#178600", "C": "#555555", "Other": "#8b97a8"}
+REPO_COLORS = ["#3b82f6", "#f59e0b", "#10b981", "#8b5cf6", "#ef4444", "#06b6d4", "#ec4899"]
+# ponytail: 自研仓与社区活动仓不算第三方上游，逐个点名；以后有新类别再加规则
+EXCLUDE_REPOS = {"ggbdpq/cursor-loc", "nice-people-frontend-community/nice-21day"}
+
+
+def merged_rows(repo_counts):
+    """Third-party upstream repos only, display name + merged count, most first."""
+    return [(name.split("/")[-1], count) for name, count in repo_counts.most_common()
+            if name not in EXCLUDE_REPOS]
 
 DIRECTIONS = [
     ("Multi-platform Frontend", ["React 19", "Vue 3", "Taro", "Mini-program / H5", "Electron"]),
@@ -26,7 +35,10 @@ DIRECTIONS = [
 
 QUERY = """query($login: String!) { user(login: $login) {
   followers { totalCount }
-  pullRequests(states: MERGED) { totalCount }
+  pullRequests(states: MERGED, first: 100) {
+    totalCount
+    nodes { repository { nameWithOwner } }
+  }
   repositories(ownerAffiliations: OWNER, isFork: false, privacy: PUBLIC, first: 100) {
     totalCount
     nodes { languages(first: 10, orderBy: {field: SIZE, direction: DESC}) { edges { size node { name } } } }
@@ -68,10 +80,13 @@ def fetch_data():
     languages.append(("Other", round(other / total * 100, 1)))
 
     calendar = user["contributionsCollection"]
+    repo_counts = Counter(node["repository"]["nameWithOwner"]
+                          for node in user["pullRequests"]["nodes"] if node["repository"])
     return {
         "contributions": calendar["contributionCalendar"]["totalContributions"],
         "commits": calendar["totalCommitContributions"],
         "merged_prs": user["pullRequests"]["totalCount"],
+        "merged_by_repo": merged_rows(repo_counts),
         "repositories": user["repositories"]["totalCount"],
         "followers": user["followers"]["totalCount"],
         "languages": languages,
@@ -145,7 +160,7 @@ def hero(t):
 
 
 def skills(t, data):
-    w, h = 880, 300
+    w, h = 880, 280
     parts = [f'<rect x="0.5" y="0.5" width="{w - 1}" height="{h - 1}" rx="14" fill="{t["card"]}" stroke="{t["border"]}"/>',
              f'<text x="32" y="44" font-family="{MONO}" font-size="11" letter-spacing="1" fill="{t["accent"]}">WHAT I WORK ON</text>']
     for i, (title, items) in enumerate(DIRECTIONS):
@@ -153,37 +168,56 @@ def skills(t, data):
         parts.append(f'<text x="{x}" y="{y}" font-family="{FONT}" font-size="15" font-weight="700" fill="{t["text"]}">{escape(title)}</text>')
         parts.append(f'<text x="{x}" y="{y + 22}" font-family="{FONT}" font-size="13" fill="{t["muted"]}">{escape(" · ".join(items))}</text>')
 
-    parts.append(f'<text x="32" y="185" font-family="{MONO}" font-size="11" letter-spacing="1" fill="{t["accent"]}">OPEN SOURCE</text>')
-    parts.append(f'<text x="150" y="185" font-family="{FONT}" font-size="13" fill="{t["muted"]}">39 upstream PRs merged · 27 in Apache Maka</text>')
-    parts.append(f'<line x1="32" y1="200" x2="{w - 32}" y2="200" stroke="{t["border"]}"/>')
-    parts.append(f'<text x="32" y="228" font-family="{MONO}" font-size="11" letter-spacing="1" fill="{t["accent"]}">LANGUAGES</text>')
-    parts.append(f'<text x="{w - 32}" y="228" text-anchor="end" font-family="{FONT}" font-size="11" fill="{t["faint"]}">by code size across my public repositories</text>')
+    parts.append(f'<line x1="32" y1="180" x2="{w - 32}" y2="180" stroke="{t["border"]}"/>')
+    parts.append(f'<text x="32" y="208" font-family="{MONO}" font-size="11" letter-spacing="1" fill="{t["accent"]}">LANGUAGES</text>')
+    parts.append(f'<text x="{w - 32}" y="208" text-anchor="end" font-family="{FONT}" font-size="11" fill="{t["faint"]}">by code size across my public repositories</text>')
     x, bar_w = 32, w - 64
-    parts.append(f'<clipPath id="bar"><rect x="32" y="242" width="{bar_w}" height="8" rx="4"/></clipPath><g clip-path="url(#bar)">')
+    parts.append(f'<clipPath id="bar"><rect x="32" y="222" width="{bar_w}" height="8" rx="4"/></clipPath><g clip-path="url(#bar)">')
     for name, pct in data["languages"]:
         seg = bar_w * pct / 100
-        parts.append(f'<rect x="{x:.1f}" y="242" width="{seg + 0.5:.1f}" height="8" fill="{LANG_COLORS.get(name, LANG_COLORS["Other"])}"/>')
+        parts.append(f'<rect x="{x:.1f}" y="222" width="{seg + 0.5:.1f}" height="8" fill="{LANG_COLORS.get(name, LANG_COLORS["Other"])}"/>')
         x += seg
     parts.append("</g>")
     x = 32
     for name, pct in data["languages"]:
         color = LANG_COLORS.get(name, LANG_COLORS["Other"])
         text = f"{name} {pct:g}%"
-        parts.append(f'<circle cx="{x + 4}" cy="273" r="4" fill="{color}"/>'
-                     f'<text x="{x + 13}" y="277" font-family="{FONT}" font-size="12" fill="{t["muted"]}">{escape(text)}</text>')
+        parts.append(f'<circle cx="{x + 4}" cy="253" r="4" fill="{color}"/>'
+                     f'<text x="{x + 13}" y="257" font-family="{FONT}" font-size="12" fill="{t["muted"]}">{escape(text)}</text>')
         x += len(text) * 6.6 + 30
     label = "Multi-platform Frontend, AI Applications, Agent Tooling, Engineering. Languages: " + ", ".join(f"{n} {p}%" for n, p in data["languages"])
+    return svg(w, h, "\n".join(parts), label)
+
+
+def opensource(t, data):
+    rows = data["merged_by_repo"]
+    total = sum(count for _, count in rows)
+    w, row_h, bar_x, bar_max = 880, 26, 150, 660
+    h = 66 + row_h * (len(rows) - 1) + 8 + 16
+    parts = [f'<rect x="0.5" y="0.5" width="{w - 1}" height="{h - 1}" rx="14" fill="{t["card"]}" stroke="{t["border"]}"/>',
+             f'<text x="32" y="40" font-family="{MONO}" font-size="11" letter-spacing="1" fill="{t["accent"]}">MERGED PULL REQUESTS</text>',
+             f'<text x="{w - 32}" y="40" text-anchor="end" font-family="{FONT}" font-size="11" fill="{t["faint"]}">{total} merged in {len(rows)} third-party repos</text>']
+    peak = max(count for _, count in rows)
+    for i, (name, count) in enumerate(rows):
+        y = 66 + i * row_h
+        color = REPO_COLORS[i % len(REPO_COLORS)]
+        bar_w = max(bar_max * count / peak, 4)
+        parts.append(f'<text x="32" y="{y + 8}" font-family="{FONT}" font-size="12" font-weight="600" fill="{t["text"]}">{escape(name)}</text>')
+        parts.append(f'<rect x="{bar_x}" y="{y}" width="{bar_w:.1f}" height="8" rx="4" fill="{color}"/>')
+        parts.append(f'<text x="{bar_x + bar_w + 8:.1f}" y="{y + 8}" font-family="{MONO}" font-size="12" fill="{t["muted"]}">{count}</text>')
+    label = "Merged pull requests in third-party repos: " + ", ".join(f"{n} {c}" for n, c in rows)
     return svg(w, h, "\n".join(parts), label)
 
 
 def main():
     data = load_data()
     ASSETS.mkdir(exist_ok=True)
-    for stale in [*ASSETS.glob("hero-*.svg"), *ASSETS.glob("skills-*.svg")]:
+    for stale in [*ASSETS.glob("hero-*.svg"), *ASSETS.glob("skills-*.svg"), *ASSETS.glob("opensource-*.svg")]:
         stale.unlink()
     for mode, t in THEMES.items():
         (ASSETS / f"hero-{mode}.svg").write_text(hero(t))
         (ASSETS / f"skills-{mode}.svg").write_text(skills(t, data))
+        (ASSETS / f"opensource-{mode}.svg").write_text(opensource(t, data))
 
 
 if __name__ == "__main__":

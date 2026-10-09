@@ -2,6 +2,18 @@
 
 <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/skills-dark.svg"><img src="./assets/skills-light.svg" alt="What I work on and languages" width="100%"></picture>
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/ggbdpq/ggbdpq/raw/output/github-contribution-grid-snake-dark.svg">
+  <img src="https://github.com/ggbdpq/ggbdpq/raw/output/github-contribution-grid-snake.svg" alt="Snake eating my contribution graph" width="100%">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github-readme-stats.vercel.app/api?username=ggbdpq&show_icons=true&custom_title=ggbdpq's%20GitHub%20Stats&theme=github_dark">
+  <img src="https://github-readme-stats.vercel.app/api?username=ggbdpq&show_icons=true&custom_title=ggbdpq's%20GitHub%20Stats" alt="ggbdpq's GitHub Stats">
+</picture>
+
+<picture><source media="(prefers-color-scheme: dark)" srcset="./assets/opensource-dark.svg"><img src="./assets/opensource-light.svg" alt="Merged pull requests by repository" width="100%"></picture>
+
 ## 🛠 我的项目
 
 - 🔌 **[qoder-proxy-api](https://github.com/ggbdpq/qoder-proxy-api)**：LLM 协议网关 · OpenAI / Anthropic 兼容 · Node 零依赖 · 89 项离线测试 · [v0.3.0](https://github.com/ggbdpq/qoder-proxy-api/releases/tag/v0.3.0)
@@ -9,15 +21,3 @@
 - 🤖 **[coding-agent](https://github.com/ggbdpq/coding-agent)**：Agent Runtime · 一规范五语言（TS / Go / Rust / Python / C#）· [v0.6.0](https://github.com/ggbdpq/coding-agent/releases/tag/v0.6.0)
 - 🖥 **[cursor-loc](https://github.com/ggbdpq/cursor-loc)**：Cursor 界面汉化
 - 🧰 **[agent-skills](https://github.com/ggbdpq/agent-skills)**：agent skills 公开合集
-
-## 🌏 开源贡献
-
-**43 个 PR 被合并（GitHub 官方口径，其中 39 条为第三方上游贡献）** · 83 个在途评审（2026-10-08）· 覆盖 AI 工具链与开发效率赛道：
-
-- **[apache/maka](https://github.com/apache/maka)**（Incubating）— 27 merged：审计、修复、维护与性能方向
-- **[CherryHQ/cherry-studio](https://github.com/CherryHQ/cherry-studio)** — 7 merged
-- **[farion1231/cc-switch](https://github.com/farion1231/cc-switch)** · **[router-for-me/CLIProxyAPI](https://github.com/router-for-me/CLIProxyAPI)** — 各 2 merged
-- **[stablyai/orca](https://github.com/stablyai/orca)** — 1 merged
-- 其余 4 条：自研仓 [cursor-loc](https://github.com/ggbdpq/cursor-loc) 3 条、社区活动仓 nice-21day 1 条
-- 在途重点：[BerriAI/litellm](https://github.com/BerriAI/litellm)（3 单 CI 全绿）、[multica-ai/multica](https://github.com/multica-ai/multica)（9 单 open）、[jlcodes99/cockpit-tools](https://github.com/jlcodes99/cockpit-tools)（多单诊断被 v1.3.66 采纳致谢）
-

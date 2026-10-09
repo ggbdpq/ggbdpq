@@ -1,21 +1,51 @@
 {
-  "contributions": 786,
-  "commits": 137,
-  "merged_prs": 43,
+  "contributions": 841,
+  "commits": 151,
+  "merged_prs": 53,
+  "merged_by_repo": [
+    [
+      "maka",
+      33
+    ],
+    [
+      "cherry-studio",
+      8
+    ],
+    [
+      "cc-switch",
+      3
+    ],
+    [
+      "CLIProxyAPI",
+      2
+    ],
+    [
+      "orca",
+      1
+    ],
+    [
+      "multica",
+      1
+    ],
+    [
+      "magpie",
+      1
+    ]
+  ],
   "repositories": 6,
   "followers": 5,
   "languages": [
     [
       "TypeScript",
-      36.1
+      36.0
     ],
     [
       "Python",
-      14.2
+      14.3
     ],
     [
       "Rust",
-      13.8
+      13.7
     ],
     [
       "JavaScript",
