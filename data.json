@@ -1,11 +1,11 @@
 {
-  "contributions": 848,
-  "commits": 154,
-  "merged_prs": 54,
+  "contributions": 969,
+  "commits": 373,
+  "merged_prs": 66,
   "merged_by_repo": [
     [
       "maka",
-      34
+      42
     ],
     [
       "cherry-studio",
@@ -13,7 +13,7 @@
     ],
     [
       "cc-switch",
-      3
+      7
     ],
     [
       "CLIProxyAPI",
@@ -32,36 +32,44 @@
       1
     ]
   ],
-  "repositories": 6,
-  "followers": 5,
+  "patches_by_repo": [
+    [
+      "magpie",
+      6
+    ]
+  ],
+  "repositories": 9,
+  "stars": 8,
+  "contributed_to": 12,
+  "followers": 6,
   "languages": [
     [
       "TypeScript",
-      36.0
-    ],
-    [
-      "Python",
-      14.3
-    ],
-    [
-      "Rust",
-      13.7
-    ],
-    [
-      "JavaScript",
-      12.7
+      26.2
     ],
     [
       "C#",
-      12.2
+      24.9
+    ],
+    [
+      "Rust",
+      23.3
     ],
     [
       "Go",
+      11.7
+    ],
+    [
+      "Python",
       10.4
     ],
     [
+      "JavaScript",
+      3.1
+    ],
+    [
       "Other",
-      0.6
+      0.5
     ]
   ]
 }
