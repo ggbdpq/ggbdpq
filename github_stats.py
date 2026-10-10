@@ -42,8 +42,28 @@ def count_patches(commits, pr_shas):
                and c["sha"] not in pr_shas)
 
 
-def merged_pr_shas(token, username, repo):
-    """Every commit SHA of the author's merged PRs in `repo`."""
+def count_coauthored(commits, username, pr_numbers=(), pr_shas=()):
+    """Commits by OTHERS crediting `username` via a Co-authored-by trailer — the
+    maintainer's own landing of the author's patch. Commits referencing one of the
+    author's merged PR numbers are squashes of those PRs (already in the PR row)."""
+    n = 0
+    for c in commits:
+        if username.lower() in c["commit"]["author"]["email"].lower():
+            continue
+        if c["sha"] in pr_shas:
+            continue
+        msg = c["commit"]["message"]
+        if not any(l.lower().startswith("co-authored-by:") and username.lower() in l.lower()
+                   for l in msg.splitlines()):
+            continue
+        if any(f"#{num}" in msg for num in pr_numbers):
+            continue
+        n += 1
+    return n
+
+
+def merged_pr_refs(token, username, repo):
+    """Numbers and commit SHAs of the author's merged PRs in `repo`."""
     query = urllib.parse.quote(f"is:pr is:merged author:{username} repo:{repo}")
     request = urllib.request.Request(
         f"https://api.github.com/search/issues?q={query}",
@@ -59,26 +79,35 @@ def merged_pr_shas(token, username, repo):
         )
         with urllib.request.urlopen(request, timeout=30) as response:
             shas.update(c["sha"] for c in json.load(response))
-    return shas
+    return numbers, shas
+
+
+def _get_commits(token, username, repo, query):
+    request = urllib.request.Request(
+        f"https://api.github.com/repos/{repo}/commits?{query}&per_page=100",
+        headers={"Authorization": f"Bearer {token}", "User-Agent": f"{username}-profile"},
+    )
+    with urllib.request.urlopen(request, timeout=30) as response:
+        return json.load(response)
 
 
 def fetch_patches(token, username, repos):
     """Upstream-applied patch commits per third-party repo: default-branch commits
-    authored by `username` and landed outside GitHub's merge flow and the author's
-    merged PRs. Returns {nameWithOwner: count}."""
+    authored by `username` (applied by hand, outside merge flow and own PRs) plus
+    commits by others crediting them via Co-authored-by. Returns {nameWithOwner: count}."""
     counts = {}
     for repo in repos:
-        request = urllib.request.Request(
-            f"https://api.github.com/repos/{repo}/commits?author={username}&per_page=100",
-            headers={"Authorization": f"Bearer {token}", "User-Agent": f"{username}-profile"},
-        )
-        with urllib.request.urlopen(request, timeout=30) as response:
-            commits = json.load(response)
-        # ponytail: 只取首页 100 条；单仓 author 提交超百条时补丁数会少算，出现再翻页
-        if any(c["commit"]["committer"]["email"] != "noreply@github.com" for c in commits):
-            n = count_patches(commits, merged_pr_shas(token, username, repo))
-            if n:
-                counts[repo] = n
+        authored = _get_commits(token, username, repo, f"author={username}")
+        all_commits = _get_commits(token, username, repo, "since=2026-10-01T00:00:00Z")
+        # ponytail: 只取首页 100 条；author 提交超百条或全仓月提交超百条时补丁数会少算，出现再翻页
+        has_direct = any(c["commit"]["committer"]["email"] != "noreply@github.com" for c in authored)
+        credited = count_coauthored(all_commits, username)
+        if not has_direct and not credited:
+            continue
+        numbers, shas = merged_pr_refs(token, username, repo)
+        n = count_patches(authored, shas) + count_coauthored(all_commits, username, set(numbers), shas)
+        if n:
+            counts[repo] = n
     return counts
 
 
