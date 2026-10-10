@@ -1,8 +1,8 @@
-"""Check merged_rows filtering and the opensource card's PR+patch composition. Run: python3 test_github_stats.py"""
+"""Check merged_rows/count_patches and the merged GitHub-stats dashboard card. Run: python3 test_github_stats.py"""
 from collections import Counter
 
-from github_stats import merged_rows
-from svg_cards import THEMES, opensource
+from github_stats import merged_rows, count_patches
+from svg_cards import THEMES, stats
 
 counts = Counter({"apache/maka": 33, "CherryHQ/cherry-studio": 8, "ggbdpq/cursor-loc": 3,
                   "farion1231/cc-switch": 3, "router-for-me/CLIProxyAPI": 2,
@@ -13,16 +13,6 @@ assert rows == [("maka", 33), ("cherry-studio", 8), ("cc-switch", 3), ("CLIProxy
                 ("orca", 1), ("multica", 1), ("magpie", 1)], rows
 assert sum(c for _, c in rows) == 49, rows
 
-svg_patch = opensource(THEMES["light"], {"merged_by_repo": rows,
-                                         "patches_by_repo": [["magpie", 2]]})
-assert 'fill-opacity="0.4"' in svg_patch, svg_patch          # patch segment rendered faded
-assert "second segment = upstream patch commits: magpie 2" in svg_patch, svg_patch
-assert ">3<" in svg_patch, svg_patch                          # magpie row shows 1 PR + 2 patches
-svg_plain = opensource(THEMES["light"], {"merged_by_repo": rows})
-assert "fill-opacity" not in svg_plain and "patch commits" not in svg_plain, svg_plain
-print("test_github_stats: ok")
-
-from github_stats import count_patches
 
 def _c(sha, committer):
     return {"sha": sha, "commit": {"committer": {"email": committer}}}
@@ -36,18 +26,28 @@ magpie = [_c("172f45a", "noreply@github.com")] + [_c(s, "yetoneful@gmail.com") f
 assert count_patches(magpie, {"172f45a"}) == 6, count_patches(magpie, {"172f45a"})
 assert count_patches([], set()) == 0
 
-from svg_cards import stats
-
-data = {"contributions": 968, "commits": 372, "merged_prs": 66,
-        "patches_by_repo": [["magpie", 6]], "repositories": 9, "followers": 6,
-        "stars": 7, "contributed_to": 11}
+data = {"contributions": 969, "commits": 373, "merged_prs": 66,
+        "patches_by_repo": [["magpie", 6]],
+        "merged_by_repo": [("maka", 42), ("cherry-studio", 8), ("cc-switch", 7),
+                            ("CLIProxyAPI", 2), ("orca", 1), ("multica", 1), ("magpie", 1)],
+        "stars": 8, "contributed_to": 12, "repositories": 9, "followers": 6,
+        "languages": [["TypeScript", 36.0]]}
 s = stats(THEMES["light"], data)
-assert "GITHUB STATS" in s
-assert "Total Stars Earned" in s and ">7<" in s, s
-assert "Total Contributions (last year)" in s and ">968<" in s, s
-assert "Merged Pull Requests" in s and ">66<" in s, s
-assert "Upstream Patch Commits" in s, s
-assert "Contributed to (last year)" in s and ">11<" in s, s
-assert "stroke-dasharray" in s and ">A<" in s, s   # rank donut: 66+6=72 -> A
-s2 = stats(THEMES["light"], {k: v for k, v in data.items() if k != "patches_by_repo"})
-assert "Upstream Patch" not in s2, s2
+assert "GITHUB STATS" in s and "GGBDPQ'S" not in s, s
+for label in ("Total Stars Earned", "Total Contributions (last year)", "Total Commits (last year)",
+              "Merged Pull Requests", "Upstream Patch Commits", "Contributed to (last year)"):
+    assert label in s, label
+assert "Followers" not in s, s                                 # dropped: unrelated to merged PRs / patches
+assert ">8<" in s and ">969<" in s and ">373<" in s and ">66<" in s and ">12<" in s, s
+assert "stroke-dasharray" in s and "rank A · 72 pts" in s, s   # 66 PRs + 6 patches -> A
+assert ">maka<" in s and ">42<" in s, s                        # per-repo bars
+assert 'fill-opacity="0.4"' in s, s                            # faded patch segment
+assert "62 merged in 7 third-party repos" in s, s
+assert "upstream patch commits" in s and "external PRs closed there" in s, s
+assert "<image" not in s                                       # no photo without img arg
+s_img = stats(THEMES["light"], data, img="B64PAYLOAD")
+assert "data:image/png;base64,B64PAYLOAD" in s_img, s_img
+s_no_patch = stats(THEMES["light"], {k: v for k, v in data.items() if k != "patches_by_repo"})
+assert "Upstream Patch" not in s_no_patch and "fill-opacity" not in s_no_patch, s_no_patch
+assert "rank A · 66 pts" in s_no_patch, s_no_patch
+print("test_github_stats: ok")

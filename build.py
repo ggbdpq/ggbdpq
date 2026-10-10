@@ -1,14 +1,16 @@
 """Build the profile SVG assets: fetch GitHub stats (cache fallback), write themed cards."""
+import base64
 import json
 import os
 from pathlib import Path
 
 from github_stats import USERNAME, fetch_data
-from svg_cards import THEMES, hero, opensource, skills, stats
+from svg_cards import THEMES, hero, skills, stats
 
 ROOT = Path(__file__).parent
 ASSETS = ROOT / "assets"
 DATA_CACHE = ROOT / "data.json"
+CHAN = ASSETS / "deepseek-chan.png"
 
 
 def load_data():
@@ -25,15 +27,14 @@ def load_data():
 
 def main():
     data = load_data()
+    img = base64.b64encode(CHAN.read_bytes()).decode() if CHAN.exists() else None
     ASSETS.mkdir(exist_ok=True)
-    for stale in [*ASSETS.glob("hero-*.svg"), *ASSETS.glob("skills-*.svg"),
-                  *ASSETS.glob("opensource-*.svg"), *ASSETS.glob("stats-*.svg")]:
+    for stale in [*ASSETS.glob("hero-*.svg"), *ASSETS.glob("skills-*.svg"), *ASSETS.glob("stats-*.svg")]:
         stale.unlink()
     for mode, t in THEMES.items():
         (ASSETS / f"hero-{mode}.svg").write_text(hero(t))
         (ASSETS / f"skills-{mode}.svg").write_text(skills(t, data))
-        (ASSETS / f"opensource-{mode}.svg").write_text(opensource(t, data))
-        (ASSETS / f"stats-{mode}.svg").write_text(stats(t, data))
+        (ASSETS / f"stats-{mode}.svg").write_text(stats(t, data, img))
 
 
 if __name__ == "__main__":
