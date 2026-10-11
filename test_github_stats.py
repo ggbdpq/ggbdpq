@@ -51,3 +51,22 @@ s_no_patch = stats(THEMES["light"], {k: v for k, v in data.items() if k != "patc
 assert "Upstream Patch" not in s_no_patch and "fill-opacity" not in s_no_patch, s_no_patch
 assert "rank A · 66 pts" in s_no_patch, s_no_patch
 print("test_github_stats: ok")
+
+from github_stats import count_coauthored
+
+def _co(sha, author_email, msg):
+    return {"sha": sha, "commit": {"author": {"email": author_email}, "message": msg}}
+
+# magpie real case: maintainer lands the patch, credits ggbdpq via Co-authored-by trailer.
+co = [_co("c606da5", "yetoneful@gmail.com",
+          "mcpauth: signed in (#1490, ggbdpq)\n\nPatch by ggbdpq in #1490, taken as is.\n\nCo-authored-by: ggbdpq <ggbdpq@gmail.com>"),
+      _co("91581fc", "yetoneful@gmail.com",
+          "library: WSL agent (#1488, ggbdpq)\n\nPatch by ggbdpq in #1488; resync added on top.\n\nCo-authored-by: ggbdpq <ggbdpq@gmail.com>")]
+assert count_coauthored(co, "ggbdpq", {1339}) == 2, count_coauthored(co, "ggbdpq", {1339})
+# a squash of the author's own merged PR carries the PR number -> already in the PR row, not a patch
+squash = [_co("deadbee", "maintainer@example.com",
+              "fix: thing (#8045)\n\nCo-authored-by: ggbdpq <ggbdpq@gmail.com>")]
+assert count_coauthored(squash, "ggbdpq", {8045}) == 0
+# self co-author trailer on own commit, or no trailer -> not counted
+assert count_coauthored([_co("a1b2c3d", "ggbdpq@gmail.com", "x\n\nCo-authored-by: ggbdpq <ggbdpq@gmail.com>")], "ggbdpq", set()) == 0
+assert count_coauthored([_co("b2c3d4e", "yetoneful@gmail.com", "no trailer here")], "ggbdpq", set()) == 0
