@@ -1,15 +1,15 @@
 {
-  "contributions": 1027,
-  "commits": 410,
-  "merged_prs": 71,
+  "contributions": 1047,
+  "commits": 435,
+  "merged_prs": 76,
   "merged_by_repo": [
     [
       "maka",
-      46
+      49
     ],
     [
       "cherry-studio",
-      9
+      10
     ],
     [
       "cc-switch",
@@ -20,11 +20,11 @@
       2
     ],
     [
-      "orca",
-      1
+      "multica",
+      2
     ],
     [
-      "multica",
+      "orca",
       1
     ],
     [
@@ -35,7 +35,7 @@
   "patches_by_repo": [
     [
       "magpie",
-      22
+      34
     ],
     [
       "orca",
@@ -45,7 +45,7 @@
   "repositories": 9,
   "stars": 8,
   "contributed_to": 12,
-  "followers": 6,
+  "followers": 7,
   "languages": [
     [
       "TypeScript",
