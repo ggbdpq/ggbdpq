@@ -1,6 +1,7 @@
 """Fetch and shape GitHub contribution stats for the profile cards."""
 import json
 import os
+import time
 import urllib.parse
 import urllib.request
 from collections import Counter
@@ -100,14 +101,17 @@ def _get_commits(token, username, repo, query, max_pages=20):
 
 
 def fetch_patches(token, username, repos):
-    """Upstream-applied patch commits per third-party repo: default-branch commits
-    authored by `username` (applied by hand, outside merge flow and own PRs) plus
-    commits by others crediting them via Co-authored-by. Returns {nameWithOwner: count}."""
+    """Upstream-applied patch commits per third-party repo. The scan below only
+    decides which repos qualify (commits of mine that landed outside my merged
+    PRs); the reported number is GitHub's own contributors-stats total — the same
+    one the repo's Insights graph shows. Hand-rolled attribution kept drifting
+    from that cached number (aligned three times now), so it gates but no longer
+    counts."""
     counts = {}
     for repo in repos:
         authored = _get_commits(token, username, repo, f"author={username}")
         all_commits = _get_commits(token, username, repo, "since=2026-10-01T00:00:00Z")
-        # ponytail: 翻页上限 20 页（2000 提交）；高频仓一个月的量也用不满
+        # ponytail: 资格扫描只回看一个月；高频仓一个月的量也用不满
         has_direct = any(c["commit"]["committer"]["email"] != "noreply@github.com" for c in authored)
         credited = count_coauthored(all_commits, username)
         if not has_direct and not credited:
@@ -115,8 +119,33 @@ def fetch_patches(token, username, repos):
         numbers, shas = merged_pr_refs(token, username, repo)
         n = count_patches(authored, shas) + count_coauthored(all_commits, username, set(numbers), shas)
         if n:
-            counts[repo] = n
+            counts[repo] = contributors_total(token, username, repo)
     return counts
+
+
+def stats_total(stats, username):
+    """`username`'s commit total from a /stats/contributors payload (author is None
+    for deleted accounts)."""
+    return sum(s["total"] for s in stats
+               if s.get("author") and s["author"]["login"].lower() == username.lower())
+
+
+def contributors_total(token, username, repo):
+    """Commit count GitHub's contributors stats attribute to `username` in `repo`.
+    Cached server-side and stale while rewritten; 202 means it is recomputing."""
+    for _ in range(8):
+        request = urllib.request.Request(
+            f"https://api.github.com/repos/{repo}/stats/contributors",
+            headers={"Authorization": f"Bearer {token}", "User-Agent": f"{username}-profile"},
+        )
+        try:
+            with urllib.request.urlopen(request, timeout=30) as response:
+                return stats_total(json.load(response), username)
+        except urllib.error.HTTPError as exc:
+            if exc.code != 202:
+                raise
+            time.sleep(3)
+    raise RuntimeError(f"{repo}: contributors stats never became ready")
 
 
 def fetch_data(token, username=USERNAME):

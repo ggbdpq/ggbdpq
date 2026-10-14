@@ -70,3 +70,15 @@ assert count_coauthored(squash, "ggbdpq", {8045}) == 0
 # self co-author trailer on own commit, or no trailer -> not counted
 assert count_coauthored([_co("a1b2c3d", "ggbdpq@gmail.com", "x\n\nCo-authored-by: ggbdpq <ggbdpq@gmail.com>")], "ggbdpq", set()) == 0
 assert count_coauthored([_co("b2c3d4e", "yetoneful@gmail.com", "no trailer here")], "ggbdpq", set()) == 0
+
+# the displayed patch number is GitHub's contributors-stats total: only my rows count,
+# deleted accounts (author None) don't, login match is case-insensitive
+from github_stats import stats_total
+
+payload = [{"total": 42, "author": {"login": "ggbdpq"}},
+           {"total": 2845, "author": {"login": "yetone"}},
+           {"total": 3, "author": None},
+           {"total": 7, "author": {"login": "GGBDPQ"}}]
+assert stats_total(payload, "ggbdpq") == 49, stats_total(payload, "ggbdpq")
+assert stats_total([], "ggbdpq") == 0
+print("test_github_stats: ok")
