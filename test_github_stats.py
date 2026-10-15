@@ -10,8 +10,9 @@ counts = Counter({"apache/maka": 33, "CherryHQ/cherry-studio": 8, "ggbdpq/cursor
                   "stablyai/orca": 1, "multica-ai/multica": 1, "yetone/magpie": 1})
 rows = merged_rows(counts)
 assert rows == [("maka", 33), ("cherry-studio", 8), ("cc-switch", 3), ("CLIProxyAPI", 2),
-                ("orca", 1), ("multica", 1), ("magpie", 1)], rows
+                ("multica", 1), ("orca", 1), ("magpie", 1)], rows  # ties break by name
 assert sum(c for _, c in rows) == 49, rows
+assert merged_rows(counts, {"yetone/magpie": 40})[0] == ("magpie", 1)  # total = merged + patches ranks first
 
 
 def _c(sha, committer):
@@ -50,6 +51,9 @@ assert "data:image/png;base64,B64PAYLOAD" in s_img, s_img
 s_no_patch = stats(THEMES["light"], {k: v for k, v in data.items() if k != "patches_by_repo"})
 assert "Upstream Patch" not in s_no_patch and "fill-opacity" not in s_no_patch, s_no_patch
 assert "rank A · 66 pts" in s_no_patch, s_no_patch
+s_big = stats(THEMES["light"], {**data, "patches_by_repo": [["magpie", 60]]})
+import re
+assert max(float(w) for w in re.findall(r'width="([\d.]+)" height="8"', s_big)) <= 270.5, s_big  # peak scales with merged+patches
 print("test_github_stats: ok")
 
 from github_stats import count_coauthored

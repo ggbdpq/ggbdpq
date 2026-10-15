@@ -7,7 +7,7 @@
   <img src="https://github.com/ggbdpq/ggbdpq/raw/output/github-contribution-grid-snake.svg" alt="Snake eating my contribution graph" width="100%">
 </picture>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="./assets/stats-dark.svg?v=20261014-3"><img src="./assets/stats-light.svg?v=20261014-3" alt="ggbdpq's GitHub Stats with merged pull requests by repository" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="./assets/stats-dark.svg?v=20261014-4"><img src="./assets/stats-light.svg?v=20261014-4" alt="ggbdpq's GitHub Stats with merged pull requests by repository" width="100%"></picture>
 
 ## 🛠 我的项目
 

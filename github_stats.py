@@ -28,10 +28,14 @@ NON_CODE = {"CSS", "SCSS", "HTML", "PLpgSQL", "Shell", "Dockerfile", "Makefile",
 EXCLUDE_REPOS = {"ggbdpq/cursor-loc", "nice-people-frontend-community/nice-21day"}
 
 
-def merged_rows(repo_counts):
-    """Third-party upstream repos only, display name + merged count, most first."""
-    return [(name.split("/")[-1], count) for name, count in repo_counts.most_common()
+def merged_rows(repo_counts, patches=None):
+    """Third-party upstream repos only, display name + merged count, biggest total
+    (merged + upstream patches) first."""
+    patches = patches or {}
+    rows = [(name, count) for name, count in repo_counts.most_common()
             if name not in EXCLUDE_REPOS]
+    rows.sort(key=lambda nc: (-(nc[1] + patches.get(nc[0], 0)), -nc[1], nc[0]))
+    return [(name.split("/")[-1], count) for name, count in rows]
 
 
 def count_patches(commits, pr_shas):
@@ -180,7 +184,7 @@ def fetch_data(token, username=USERNAME):
         "contributions": calendar["contributionCalendar"]["totalContributions"],
         "commits": calendar["totalCommitContributions"],
         "merged_prs": user["pullRequests"]["totalCount"],
-        "merged_by_repo": merged_rows(repo_counts),
+        "merged_by_repo": merged_rows(repo_counts, patch_counts),
         "patches_by_repo": patches_by_repo,
         "repositories": user["repositories"]["totalCount"],
         "stars": sum(n["stargazerCount"] for n in user["repositories"]["nodes"]),

@@ -1,11 +1,19 @@
 {
-  "contributions": 1085,
-  "commits": 444,
+  "contributions": 1116,
+  "commits": 453,
   "merged_prs": 76,
   "merged_by_repo": [
     [
+      "magpie",
+      1
+    ],
+    [
       "maka",
       49
+    ],
+    [
+      "orca",
+      1
     ],
     [
       "cherry-studio",
@@ -16,26 +24,18 @@
       7
     ],
     [
-      "CLIProxyAPI",
-      2
-    ],
-    [
       "multica",
       2
     ],
     [
-      "orca",
-      1
-    ],
-    [
-      "magpie",
-      1
+      "CLIProxyAPI",
+      2
     ]
   ],
   "patches_by_repo": [
     [
       "magpie",
-      43
+      56
     ],
     [
       "orca",
@@ -45,7 +45,7 @@
   "repositories": 9,
   "stars": 9,
   "contributed_to": 12,
-  "followers": 7,
+  "followers": 9,
   "languages": [
     [
       "TypeScript",

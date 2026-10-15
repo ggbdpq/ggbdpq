@@ -152,7 +152,7 @@ def stats(t, data, img=None):
                  f' stroke-dasharray="{pct * circ:.1f} {circ:.1f}" transform="rotate(-90 {cx} {cy})"/>'
                  f'<text x="{cx}" y="{cy + 14}" text-anchor="middle" font-family="{FONT}" font-size="40" font-weight="700" fill="{t["text"]}">{rank}</text>'
                  f'<text x="{cx}" y="190" text-anchor="middle" font-family="{MONO}" font-size="11" fill="{t["muted"]}">rank {rank} · {score} pts</text>')
-    peak = max(count for _, count in bars)
+    peak = max(count + patches.get(name, 0) for name, count in bars)  # 行按合计排，刻度也用合计
     bar_x, bar_max, row_h = 496, 270, 19
     for i, (name, count) in enumerate(bars):
         y = 216 + i * row_h
