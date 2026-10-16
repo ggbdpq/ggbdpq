@@ -1,7 +1,8 @@
 {
-  "contributions": 1116,
-  "commits": 453,
-  "merged_prs": 76,
+  "contributions": 1154,
+  "commits": 468,
+  "merged_prs": 77,
+  "issues": 102,
   "merged_by_repo": [
     [
       "magpie",
@@ -9,7 +10,7 @@
     ],
     [
       "maka",
-      49
+      50
     ],
     [
       "orca",
@@ -35,17 +36,17 @@
   "patches_by_repo": [
     [
       "magpie",
-      56
+      69
     ],
     [
       "orca",
-      10
+      11
     ]
   ],
   "repositories": 9,
   "stars": 9,
-  "contributed_to": 12,
-  "followers": 9,
+  "contributed_to": 11,
+  "followers": 11,
   "languages": [
     [
       "TypeScript",

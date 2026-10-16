@@ -32,14 +32,15 @@ data = {"contributions": 969, "commits": 373, "merged_prs": 66,
         "merged_by_repo": [("maka", 42), ("cherry-studio", 8), ("cc-switch", 7),
                             ("CLIProxyAPI", 2), ("orca", 1), ("multica", 1), ("magpie", 1)],
         "stars": 8, "contributed_to": 12, "repositories": 9, "followers": 6,
-        "languages": [["TypeScript", 36.0]]}
+        "issues": 21, "languages": [["TypeScript", 36.0]]}
 s = stats(THEMES["light"], data)
 assert "GITHUB STATS" in s and "GGBDPQ'S" not in s, s
 for label in ("Total Stars Earned", "Total Contributions (last year)", "Total Commits (last year)",
-              "Merged Pull Requests", "Upstream Patch Commits", "Contributed to (last year)"):
+              "Merged Pull Requests", "Issues Opened", "Upstream Patch Commits", "Contributed to (last year)"):
     assert label in s, label
 assert "Followers" not in s, s                                 # dropped: unrelated to merged PRs / patches
-assert ">8<" in s and ">969<" in s and ">373<" in s and ">66<" in s and ">12<" in s, s
+assert ">8<" in s and ">969<" in s and ">373<" in s and ">66<" in s and ">12<" in s and ">21<" in s, s
+assert "stroke-dasharray" in s and "rank A · 72 pts" in s, s   # issues don't join the score: 66 PRs + 6 patches
 assert "stroke-dasharray" in s and "rank A · 72 pts" in s, s   # 66 PRs + 6 patches -> A
 assert ">maka<" in s and ">42<" in s, s                        # per-repo bars
 assert 'fill-opacity="0.4"' in s, s                            # faded patch segment

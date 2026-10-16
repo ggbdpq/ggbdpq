@@ -14,6 +14,7 @@ QUERY = """query($login: String!) { user(login: $login) {
     totalCount
     nodes { repository { nameWithOwner } }
   }
+  issues(first: 1) { totalCount }
   repositories(ownerAffiliations: OWNER, isFork: false, privacy: PUBLIC, first: 100) {
     totalCount
     nodes { stargazerCount languages(first: 10, orderBy: {field: SIZE, direction: DESC}) { edges { size node { name } } } }
@@ -136,7 +137,8 @@ def stats_total(stats, username):
 
 def contributors_total(token, username, repo):
     """Commit count GitHub's contributors stats attribute to `username` in `repo`.
-    Cached server-side and stale while rewritten; 202 means it is recomputing."""
+    Cached server-side and stale while rewritten; 202 — or a 200 whose payload has
+    no row for `username` yet — means it is recomputing."""
     for _ in range(8):
         request = urllib.request.Request(
             f"https://api.github.com/repos/{repo}/stats/contributors",
@@ -144,11 +146,16 @@ def contributors_total(token, username, repo):
         )
         try:
             with urllib.request.urlopen(request, timeout=30) as response:
-                return stats_total(json.load(response), username)
+                stats = json.load(response)
         except urllib.error.HTTPError as exc:
             if exc.code != 202:
                 raise
             time.sleep(3)
+            continue
+        if any(s.get("author") and s["author"]["login"].lower() == username.lower()
+               for s in stats):
+            return stats_total(stats, username)
+        time.sleep(3)
     raise RuntimeError(f"{repo}: contributors stats never became ready")
 
 
@@ -184,6 +191,7 @@ def fetch_data(token, username=USERNAME):
         "contributions": calendar["contributionCalendar"]["totalContributions"],
         "commits": calendar["totalCommitContributions"],
         "merged_prs": user["pullRequests"]["totalCount"],
+        "issues": user["issues"]["totalCount"],
         "merged_by_repo": merged_rows(repo_counts, patch_counts),
         "patches_by_repo": patches_by_repo,
         "repositories": user["repositories"]["totalCount"],

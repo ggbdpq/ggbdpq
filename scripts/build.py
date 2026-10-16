@@ -7,9 +7,9 @@ from pathlib import Path
 from github_stats import USERNAME, fetch_data
 from svg_cards import THEMES, hero, skills, stats
 
-ROOT = Path(__file__).parent
+ROOT = Path(__file__).parent.parent
 ASSETS = ROOT / "assets"
-DATA_CACHE = ROOT / "data.json"
+DATA_CACHE = Path(__file__).parent / "data.json"
 CHAN = ASSETS / "deepseek-chan.png"
 
 

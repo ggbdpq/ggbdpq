@@ -124,7 +124,8 @@ def stats(t, data, img=None):
     rows = [("⭐", "Total Stars Earned", data.get("stars", 0)),
             ("🕘", "Total Contributions (last year)", data["contributions"]),
             ("💻", "Total Commits (last year)", data["commits"]),
-            ("📫", "Merged Pull Requests", data["merged_prs"])]
+            ("📫", "Merged Pull Requests", data["merged_prs"]),
+            ("📋", "Issues Opened", data.get("issues", 0))]
     if patches:
         rows.append(("🩹", "Upstream Patch Commits", sum(patches.values())))
     rows.append(("📚", "Contributed to (last year)", data.get("contributed_to", 0)))
@@ -143,7 +144,7 @@ def stats(t, data, img=None):
                      f'<text x="92" y="{y}" font-family="{FONT}" font-size="12.5" fill="{t["muted"]}">{escape(label)}</text>'
                      f'<text x="344" y="{y}" text-anchor="end" font-family="{FONT}" font-size="14" font-weight="700" fill="{t["text"]}">{value}</text>')
     if img:
-        parts.append(f'<image x="128" y="222" width="148" height="148" preserveAspectRatio="xMidYMid meet"'
+        parts.append(f'<image x="128" y="272" width="148" height="108" preserveAspectRatio="xMidYMid meet"'
                      f' href="data:image/png;base64,{img}"/>')
     parts.append(f'<line x1="372" y1="70" x2="372" y2="352" stroke="{t["border"]}"/>')
     cx, cy, r, circ = 610, 118, 48, 2 * 3.14159 * 48
