@@ -40,25 +40,24 @@ data = {"contributions": 969, "commits": 373, "merged_prs": 66,
                             ("CLIProxyAPI", 2), ("orca", 1), ("multica", 1), ("magpie", 1)],
         "stars": 8, "contributed_to": 12, "repositories": 9, "followers": 6,
         "issues": 21, "languages": [["TypeScript", 36.0]],
-        "upstream_languages": [["Go", 46.6], ["TypeScript", 41.8], ["Rust", 5.3], ["Other", 6.3]],
-        "upstream_lines": {"added": 31322, "deleted": 2853},
-        "upstream_lines_by_repo": [["magpie", 13821, 731], ["maka", 12938, 1470]]}
+        "merged_recent": 3,
+        "upstream_languages": [["Go", 46.6], ["TypeScript", 41.8], ["Rust", 5.3], ["Other", 6.3]]}
 s = stats(THEMES["light"], data)
 assert "GITHUB STATS" in s and "GGBDPQ'S" not in s, s
-for label in ("Total Stars Earned", "Total Contributions (last year)", "Total Commits (last year)",
-              "Merged Pull Requests", "Issues Opened", "Upstream Patch Commits",
-              "Upstream Lines (+/-)", "Contributed to (last year)"):
+for label in ("Merged Pull Requests", "Merged PRs (30 days)", "Upstream Patch Commits",
+              "Total Contributions (last year)", "Total Commits (last year)",
+              "Contributed to (last year)", "Issues Opened", "Total Stars Earned"):
     assert label in s, label
+assert "Upstream Lines" not in s and "deletions" not in s, s   # 行数太吵，不进卡片
 assert "Followers" not in s, s                                 # dropped: unrelated to merged PRs / patches
 assert ">8<" in s and ">969<" in s and ">373<" in s and ">66<" in s and ">12<" in s and ">21<" in s, s
-assert "+31,322 / -2,853" in s, s                              # upstream lines stay separate from repo code size
+assert ">3<" in s, s                                           # merged_recent row
 assert "stroke-dasharray" in s and "rank A · 72 pts" in s, s   # issues don't join the score: 66 PRs + 6 patches
 assert "stroke-dasharray" in s and "rank A · 72 pts" in s, s   # 66 PRs + 6 patches -> A
-assert ">maka<" in s and ">42 +12.9k/-1.5k<" in s, s           # per-repo bars + my authored lines
-assert "+13.8k/-731" in s, s                                  # magpie lines, compacted
+assert ">maka<" in s and ">42<" in s, s                        # per-repo bars
 assert 'fill-opacity="0.4"' in s, s                            # faded patch segment
 assert "62 merged in 7 third-party repos" in s, s
-assert "upstream patch commits" in s and "external PRs closed there" in s, s
+assert "upstream patch commits · magpie 6" in s, s
 assert "<image" not in s                                       # no photo without img arg
 k = skills(THEMES["light"], data)
 assert "UPSTREAM CONTRIBUTIONS" in k and "Go 46.6%" in k, k
@@ -70,6 +69,8 @@ assert "data:image/png;base64,B64PAYLOAD" in s_img, s_img
 s_no_patch = stats(THEMES["light"], {k: v for k, v in data.items() if k != "patches_by_repo"})
 assert "Upstream Patch" not in s_no_patch and "fill-opacity" not in s_no_patch, s_no_patch
 assert "rank A · 66 pts" in s_no_patch, s_no_patch
+s_cached = stats(THEMES["light"], {k: v for k, v in data.items() if k != "merged_recent"})
+assert "30 days" not in s_cached, s_cached                     # cached data keeps the old card shape
 s_big = stats(THEMES["light"], {**data, "patches_by_repo": [["magpie", 60]]})
 import re
 assert max(float(w) for w in re.findall(r'width="([\d.]+)" height="8"', s_big)) <= 270.5, s_big  # peak scales with merged+patches

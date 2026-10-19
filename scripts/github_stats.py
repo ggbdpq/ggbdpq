@@ -5,6 +5,7 @@ import time
 import urllib.parse
 import urllib.request
 from collections import Counter
+from datetime import date, timedelta
 
 USERNAME = "ggbdpq"
 
@@ -112,6 +113,18 @@ def count_coauthored(commits, username, pr_numbers=(), pr_shas=()):
     return n
 
 
+def merged_recent_count(token, username, days=30):
+    """Merged PRs across GitHub in the last `days` days — recent momentum."""
+    since = (date.today() - timedelta(days=days)).isoformat()
+    query = urllib.parse.quote(f"is:pr is:merged author:{username} merged:>={since}")
+    request = urllib.request.Request(
+        f"https://api.github.com/search/issues?q={query}",
+        headers={"Authorization": f"Bearer {token}", "User-Agent": f"{username}-profile"},
+    )
+    with urllib.request.urlopen(request, timeout=30) as response:
+        return json.load(response)["total_count"]
+
+
 def merged_pr_refs(token, username, repo):
     """Numbers and commit SHAs of the author's merged PRs in `repo`."""
     query = urllib.parse.quote(f"is:pr is:merged author:{username} repo:{repo}")
@@ -156,11 +169,10 @@ def _api_get(token, username, url):
 
 
 def authored_commit_mix(token, username, repo, max_commits=200):
-    """Language mix and line totals from this user's authored commits on the
-    default branch. The commit detail API caps `files` at 300, so a huge commit
-    is counted partially."""
+    """Language mix of this user's authored commits on the default branch. The
+    commit detail API caps `files` at 300, so a huge commit is counted partially."""
     commits = _get_commits(token, username, repo, f"author={username}")
-    mix, added, deleted = Counter(), 0, 0
+    mix = Counter()
     for commit in commits[:max_commits]:
         try:
             detail = _api_get(token, username,
@@ -168,11 +180,8 @@ def authored_commit_mix(token, username, repo, max_commits=200):
         except Exception:
             continue
         for changed in detail.get("files", []):
-            a, d = changed.get("additions", 0), changed.get("deletions", 0)
-            mix[file_language(changed.get("filename", ""))] += a
-            added += a
-            deleted += d
-    return mix, added, deleted
+            mix[file_language(changed.get("filename", ""))] += changed.get("additions", 0)
+    return mix
 
 
 def _get_commits(token, username, repo, query, max_pages=20):
@@ -260,28 +269,25 @@ def contributors_total(token, username, repo):
 
 
 def fetch_upstream_contributions(token, username, repo_langs):
-    """Lines and language mix of this user's work in third-party repos.
-
-    Line totals come from GitHub's contributor stats (the repo Insights number),
-    so reworked patch commits count; the language split comes from the files in
-    their landed commits, falling back to the repo's language mix when no commit
-    files are available."""
-    weighted, by_repo = Counter(), []
-    added_total = deleted_total = 0
+    """Language mix of this user's work in third-party repos. The language split
+    comes from the files in their landed commits; the repo weight is GitHub's
+    contributor-stats additions (the Insights number), falling back to the
+    commit files or the repo's own language mix when those are unavailable."""
+    weighted = Counter()
     for repo, langs in repo_langs.items():
         if repo.split("/")[0].lower() == username.lower() or repo in EXCLUDE_REPOS:
             continue
         try:
-            mix, commit_add, commit_del = authored_commit_mix(token, username, repo)
+            mix = authored_commit_mix(token, username, repo)
         except Exception:
-            mix, commit_add, commit_del = Counter(), 0, 0
+            mix = Counter()
         try:
             activity = contributors_activity(token, username, repo)
         except Exception:
             activity = None
-        added, deleted = ((activity[1], activity[2])
-                          if activity and activity[1] else (commit_add, commit_del))
-        if not added and not deleted:
+        weight = (activity[1] if activity and activity[1]
+                  else sum(mix.values()))
+        if not weight:
             continue
         mix_total = sum(mix.values())
         if mix_total:
@@ -290,15 +296,9 @@ def fetch_upstream_contributions(token, username, repo_langs):
             size_total = sum(size for _, size in langs) or 1
             shares = {lang: size / size_total for lang, size in langs}
         for lang, share in shares.items():
-            weighted[lang] += added * share
-        added_total += added
-        deleted_total += deleted
-        by_repo.append([repo.rsplit("/", 1)[-1], added, deleted])
-    by_repo.sort(key=lambda row: (-row[1], row[0]))
+            weighted[lang] += weight * share
     return {
         "upstream_languages": top_languages(weighted),
-        "upstream_lines": {"added": added_total, "deleted": deleted_total},
-        "upstream_lines_by_repo": by_repo,
     }
 
 
@@ -326,7 +326,12 @@ def fetch_data(token, username=USERNAME):
     patches_by_repo = sorted(((name.split("/")[-1], count) for name, count in patch_counts.items() if count),
                              key=lambda item: (-item[1], item[0]))
     upstream = fetch_upstream_contributions(token, username, repo_language_map(user))
+    try:
+        merged_recent = merged_recent_count(token, username)
+    except Exception:
+        merged_recent = None  # ponytail: rate-limited search keeps the cached row out
     return {
+        "merged_recent": merged_recent,
         "contributions": calendar["contributionCalendar"]["totalContributions"],
         "commits": calendar["totalCommitContributions"],
         "merged_prs": user["pullRequests"]["totalCount"],

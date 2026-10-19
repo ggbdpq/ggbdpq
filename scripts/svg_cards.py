@@ -128,28 +128,23 @@ def skills(t, data):
 RANKS = [(100, "S"), (50, "A"), (20, "B"), (5, "C"), (1, "D"), (0, "E")]
 
 
-def short_num(n):
-    return f"{n / 1000:.1f}k" if n >= 1000 else str(n)
-
-
 def stats(t, data, img=None):
     """Merged dashboard: narrow stat column + character art (left), rank donut and
-    per-repo bars with the patch footnote (right)."""
+    per-repo bars with the patch footnote (right). Rows lead with the signals an
+    interviewer scans first: merged work, upstream adoption, momentum."""
     patches = dict(data.get("patches_by_repo") or [])
     bars = data["merged_by_repo"]
     total = sum(count for _, count in bars)
-    rows = [("⭐", "Total Stars Earned", data.get("stars", 0)),
-            ("🕘", "Total Contributions (last year)", data["contributions"]),
-            ("💻", "Total Commits (last year)", data["commits"]),
-            ("📫", "Merged Pull Requests", data["merged_prs"]),
-            ("📋", "Issues Opened", data.get("issues", 0))]
+    rows = [("📫", "Merged Pull Requests", data["merged_prs"])]
+    if data.get("merged_recent") is not None:
+        rows.append(("📅", "Merged PRs (30 days)", data["merged_recent"]))
     if patches:
         rows.append(("🩹", "Upstream Patch Commits", sum(patches.values())))
-    lines = data.get("upstream_lines") or {}
-    if lines:
-        rows.append(("📈", "Upstream Lines (+/-)",
-                     f"+{lines['added']:,} / -{lines['deleted']:,}"))
-    rows.append(("📚", "Contributed to (last year)", data.get("contributed_to", 0)))
+    rows += [("🕘", "Total Contributions (last year)", data["contributions"]),
+             ("💻", "Total Commits (last year)", data["commits"]),
+             ("📚", "Contributed to (last year)", data.get("contributed_to", 0)),
+             ("📋", "Issues Opened", data.get("issues", 0)),
+             ("⭐", "Total Stars Earned", data.get("stars", 0))]
     score = data["merged_prs"] + sum(patches.values())
     rank, floor = next((l, n) for n, l in RANKS if score >= n)
     ceiling = next((n for n, _ in RANKS if n > floor), floor + 1)
@@ -175,8 +170,6 @@ def stats(t, data, img=None):
                  f'<text x="{cx}" y="{cy + 14}" text-anchor="middle" font-family="{FONT}" font-size="40" font-weight="700" fill="{t["text"]}">{rank}</text>'
                  f'<text x="{cx}" y="190" text-anchor="middle" font-family="{MONO}" font-size="11" fill="{t["muted"]}">rank {rank} · {score} pts</text>')
     peak = max(count + patches.get(name, 0) for name, count in bars)  # 行按合计排，刻度也用合计
-    lines_by_repo = {name: (added, deleted)
-                     for name, added, deleted in data.get("upstream_lines_by_repo") or []}
     bar_x, bar_max, row_h = 496, 270, 19
     for i, (name, count) in enumerate(bars):
         y = 216 + i * row_h
@@ -191,22 +184,10 @@ def stats(t, data, img=None):
             faded = f' fill-opacity="{opacity}"' if opacity else ""
             parts.append(f'<rect x="{nx:.1f}" y="{y}" width="{seg_w:.1f}" height="8" rx="4" fill="{color}"{faded}/>')
             nx += seg_w + 2
-        suffix = ""
-        if name in lines_by_repo:
-            added, deleted = lines_by_repo[name]
-            suffix = f" +{short_num(added)}/-{short_num(deleted)}"
-        parts.append(f'<text x="{nx - 2 + 4:.1f}" y="{y + 7}" font-family="{MONO}" font-size="10.5" fill="{t["muted"]}">{count + patches.get(name, 0)}{suffix}</text>')
+        parts.append(f'<text x="{nx - 2 + 5:.1f}" y="{y + 7}" font-family="{MONO}" font-size="11" fill="{t["muted"]}">{count + patches.get(name, 0)}</text>')
     if patches:
-        note = ("faded segment = upstream patch commits: "
-                + ", ".join(f"{n} {c}" for n, c in patches.items())
-                + " (external PRs closed there)")
+        note = "faded segment = upstream patch commits · " + " · ".join(f"{n} {c}" for n, c in patches.items())
         parts.append(f'<text x="396" y="374" font-family="{FONT}" font-size="9.5" fill="{t["faint"]}">{escape(note)}</text>')
-    if lines_by_repo:
-        parts.append(f'<text x="396" y="388" font-family="{FONT}" font-size="9.5" fill="{t["faint"]}">'
-                     "right of each count: my authored +additions/-deletions in that repo</text>")
     label = ("GitHub stats: " + ", ".join(f"{l.lower()} {v}" for _, l, v in rows) + f"; rank {rank} {score} pts. "
              + "Merged pull requests in third-party repos: " + ", ".join(f"{n} {c}" for n, c in bars))
-    if lines_by_repo:
-        label += ". Authored lines: " + ", ".join(
-            f"{n} +{a}/-{d}" for n, (a, d) in lines_by_repo.items())
     return svg(w, h, "\n".join(parts), label)
