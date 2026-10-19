@@ -82,8 +82,29 @@ def hero(t):
     return svg(w, h, body, "ggbdpq, Frontend Engineer building AI developer tools")
 
 
+def language_block(parts, t, label, note, items, x, y, width, clip_id):
+    parts.append(f'<text x="{x}" y="{y}" font-family="{MONO}" font-size="11" letter-spacing="1" fill="{t["accent"]}">{escape(label)}</text>')
+    parts.append(f'<text x="{x + width}" y="{y}" text-anchor="end" font-family="{FONT}" font-size="11" fill="{t["faint"]}">{escape(note)}</text>')
+    bar_y = y + 14
+    parts.append(f'<clipPath id="{clip_id}"><rect x="{x}" y="{bar_y}" width="{width}" height="8" rx="4"/></clipPath><g clip-path="url(#{clip_id})">')
+    bx = x
+    for name, pct in items:
+        seg = width * pct / 100
+        parts.append(f'<rect x="{bx:.1f}" y="{bar_y}" width="{seg + 0.5:.1f}" height="8" fill="{LANG_COLORS.get(name, LANG_COLORS["Other"])}"/>')
+        bx += seg
+    parts.append("</g>")
+    lx = x
+    for name, pct in items:
+        color = LANG_COLORS.get(name, LANG_COLORS["Other"])
+        text = f"{name} {pct:g}%"
+        parts.append(f'<circle cx="{lx + 4}" cy="{bar_y + 31}" r="4" fill="{color}"/>'
+                     f'<text x="{lx + 13}" y="{bar_y + 35}" font-family="{FONT}" font-size="12" fill="{t["muted"]}">{escape(text)}</text>')
+        lx += len(text) * 6.6 + 30
+
+
 def skills(t, data):
-    w, h = 880, 280
+    upstream = data.get("upstream_languages") or []
+    w, h = 880, 372 if upstream else 280
     parts = [f'<rect x="0.5" y="0.5" width="{w - 1}" height="{h - 1}" rx="14" fill="{t["card"]}" stroke="{t["border"]}"/>',
              f'<text x="32" y="44" font-family="{MONO}" font-size="11" letter-spacing="1" fill="{t["accent"]}">WHAT I WORK ON</text>']
     for i, (title, items) in enumerate(DIRECTIONS):
@@ -92,27 +113,23 @@ def skills(t, data):
         parts.append(f'<text x="{x}" y="{y + 22}" font-family="{FONT}" font-size="13" fill="{t["muted"]}">{escape(" · ".join(items))}</text>')
 
     parts.append(f'<line x1="32" y1="180" x2="{w - 32}" y2="180" stroke="{t["border"]}"/>')
-    parts.append(f'<text x="32" y="208" font-family="{MONO}" font-size="11" letter-spacing="1" fill="{t["accent"]}">LANGUAGES</text>')
-    parts.append(f'<text x="{w - 32}" y="208" text-anchor="end" font-family="{FONT}" font-size="11" fill="{t["faint"]}">by code size across my public repositories</text>')
-    x, bar_w = 32, w - 64
-    parts.append(f'<clipPath id="bar"><rect x="32" y="222" width="{bar_w}" height="8" rx="4"/></clipPath><g clip-path="url(#bar)">')
-    for name, pct in data["languages"]:
-        seg = bar_w * pct / 100
-        parts.append(f'<rect x="{x:.1f}" y="222" width="{seg + 0.5:.1f}" height="8" fill="{LANG_COLORS.get(name, LANG_COLORS["Other"])}"/>')
-        x += seg
-    parts.append("</g>")
-    x = 32
-    for name, pct in data["languages"]:
-        color = LANG_COLORS.get(name, LANG_COLORS["Other"])
-        text = f"{name} {pct:g}%"
-        parts.append(f'<circle cx="{x + 4}" cy="253" r="4" fill="{color}"/>'
-                     f'<text x="{x + 13}" y="257" font-family="{FONT}" font-size="12" fill="{t["muted"]}">{escape(text)}</text>')
-        x += len(text) * 6.6 + 30
+    language_block(parts, t, "LANGUAGES", "by code size across my public repositories",
+                   data["languages"], 32, 208, w - 64, "bar1")
+    if upstream:
+        parts.append(f'<line x1="32" y1="276" x2="{w - 32}" y2="276" stroke="{t["border"]}"/>')
+        language_block(parts, t, "UPSTREAM CONTRIBUTIONS", "by my landed lines in third-party repos",
+                       upstream, 32, 304, w - 64, "bar2")
     label = "Multi-platform Frontend, AI Applications, Agent Tooling, Engineering. Languages: " + ", ".join(f"{n} {p}%" for n, p in data["languages"])
+    if upstream:
+        label += ". Upstream contributions: " + ", ".join(f"{n} {p}%" for n, p in upstream)
     return svg(w, h, "\n".join(parts), label)
 
 
 RANKS = [(100, "S"), (50, "A"), (20, "B"), (5, "C"), (1, "D"), (0, "E")]
+
+
+def short_num(n):
+    return f"{n / 1000:.1f}k" if n >= 1000 else str(n)
 
 
 def stats(t, data, img=None):
@@ -128,13 +145,17 @@ def stats(t, data, img=None):
             ("📋", "Issues Opened", data.get("issues", 0))]
     if patches:
         rows.append(("🩹", "Upstream Patch Commits", sum(patches.values())))
+    lines = data.get("upstream_lines") or {}
+    if lines:
+        rows.append(("📈", "Upstream Lines (+/-)",
+                     f"+{lines['added']:,} / -{lines['deleted']:,}"))
     rows.append(("📚", "Contributed to (last year)", data.get("contributed_to", 0)))
     score = data["merged_prs"] + sum(patches.values())
     rank, floor = next((l, n) for n, l in RANKS if score >= n)
     ceiling = next((n for n, _ in RANKS if n > floor), floor + 1)
     pct = min((score - floor) / (ceiling - floor), 1)
 
-    w, h = 880, 384
+    w, h = 880, 400
     parts = [f'<rect x="0.5" y="0.5" width="{w - 1}" height="{h - 1}" rx="14" fill="{t["card"]}" stroke="{t["border"]}"/>',
              f'<text x="202" y="44" text-anchor="middle" font-family="{MONO}" font-size="14" letter-spacing="1" fill="{t["accent"]}">GITHUB STATS</text>',
              f'<text x="610" y="44" text-anchor="middle" font-family="{FONT}" font-size="13" fill="{t["faint"]}">{total} merged in {len(bars)} third-party repos</text>']
@@ -146,7 +167,7 @@ def stats(t, data, img=None):
     if img:
         parts.append(f'<image x="128" y="272" width="148" height="108" preserveAspectRatio="xMidYMid meet"'
                      f' href="data:image/png;base64,{img}"/>')
-    parts.append(f'<line x1="372" y1="70" x2="372" y2="352" stroke="{t["border"]}"/>')
+    parts.append(f'<line x1="372" y1="70" x2="372" y2="360" stroke="{t["border"]}"/>')
     cx, cy, r, circ = 610, 118, 48, 2 * 3.14159 * 48
     parts.append(f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{t["border"]}" stroke-width="11"/>'
                  f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{t["accent"]}" stroke-width="11" stroke-linecap="round"'
@@ -154,6 +175,8 @@ def stats(t, data, img=None):
                  f'<text x="{cx}" y="{cy + 14}" text-anchor="middle" font-family="{FONT}" font-size="40" font-weight="700" fill="{t["text"]}">{rank}</text>'
                  f'<text x="{cx}" y="190" text-anchor="middle" font-family="{MONO}" font-size="11" fill="{t["muted"]}">rank {rank} · {score} pts</text>')
     peak = max(count + patches.get(name, 0) for name, count in bars)  # 行按合计排，刻度也用合计
+    lines_by_repo = {name: (added, deleted)
+                     for name, added, deleted in data.get("upstream_lines_by_repo") or []}
     bar_x, bar_max, row_h = 496, 270, 19
     for i, (name, count) in enumerate(bars):
         y = 216 + i * row_h
@@ -168,12 +191,22 @@ def stats(t, data, img=None):
             faded = f' fill-opacity="{opacity}"' if opacity else ""
             parts.append(f'<rect x="{nx:.1f}" y="{y}" width="{seg_w:.1f}" height="8" rx="4" fill="{color}"{faded}/>')
             nx += seg_w + 2
-        parts.append(f'<text x="{nx - 2 + 5:.1f}" y="{y + 7}" font-family="{MONO}" font-size="11" fill="{t["muted"]}">{count + patches.get(name, 0)}</text>')
+        suffix = ""
+        if name in lines_by_repo:
+            added, deleted = lines_by_repo[name]
+            suffix = f" +{short_num(added)}/-{short_num(deleted)}"
+        parts.append(f'<text x="{nx - 2 + 4:.1f}" y="{y + 7}" font-family="{MONO}" font-size="10.5" fill="{t["muted"]}">{count + patches.get(name, 0)}{suffix}</text>')
     if patches:
         note = ("faded segment = upstream patch commits: "
                 + ", ".join(f"{n} {c}" for n, c in patches.items())
                 + " (external PRs closed there)")
         parts.append(f'<text x="396" y="374" font-family="{FONT}" font-size="9.5" fill="{t["faint"]}">{escape(note)}</text>')
+    if lines_by_repo:
+        parts.append(f'<text x="396" y="388" font-family="{FONT}" font-size="9.5" fill="{t["faint"]}">'
+                     "right of each count: my authored +additions/-deletions in that repo</text>")
     label = ("GitHub stats: " + ", ".join(f"{l.lower()} {v}" for _, l, v in rows) + f"; rank {rank} {score} pts. "
              + "Merged pull requests in third-party repos: " + ", ".join(f"{n} {c}" for n, c in bars))
+    if lines_by_repo:
+        label += ". Authored lines: " + ", ".join(
+            f"{n} +{a}/-{d}" for n, (a, d) in lines_by_repo.items())
     return svg(w, h, "\n".join(parts), label)

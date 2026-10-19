@@ -12,14 +12,31 @@ QUERY = """query($login: String!) { user(login: $login) {
   followers { totalCount }
   pullRequests(states: MERGED, first: 100) {
     totalCount
-    nodes { repository { nameWithOwner } }
+    nodes {
+      repository {
+        nameWithOwner
+        isPrivate
+        languages(first: 10, orderBy: {field: SIZE, direction: DESC}) { edges { size node { name } } }
+      }
+    }
   }
   issues(first: 1) { totalCount }
   repositories(ownerAffiliations: OWNER, isFork: false, privacy: PUBLIC, first: 100) {
     totalCount
     nodes { stargazerCount languages(first: 10, orderBy: {field: SIZE, direction: DESC}) { edges { size node { name } } } }
   }
-  contributionsCollection { totalCommitContributions contributionCalendar { totalContributions } }
+  contributionsCollection {
+    totalCommitContributions
+    contributionCalendar { totalContributions }
+    commitContributionsByRepository(maxRepositories: 100) {
+      contributions { totalCount }
+      repository {
+        nameWithOwner
+        isPrivate
+        languages(first: 10, orderBy: {field: SIZE, direction: DESC}) { edges { size node { name } } }
+      }
+    }
+  }
   repositoriesContributedTo(first: 1) { totalCount }
 } }"""
 
@@ -27,6 +44,33 @@ NON_CODE = {"CSS", "SCSS", "HTML", "PLpgSQL", "Shell", "Dockerfile", "Makefile",
             "Markdown", "Batchfile", "PowerShell", "INI", "TSQL"}
 # ponytail: 自研仓与社区活动仓不算第三方上游，逐个点名；以后有新类别再加规则
 EXCLUDE_REPOS = {"ggbdpq/cursor-loc", "nice-people-frontend-community/nice-21day"}
+# ponytail: extension map, not linguist; add a language when a new one shows up
+EXT_LANG = {
+    "go": "Go", "ts": "TypeScript", "tsx": "TypeScript", "js": "JavaScript",
+    "jsx": "JavaScript", "mjs": "JavaScript", "cjs": "JavaScript",
+    "py": "Python", "rs": "Rust", "cs": "C#", "java": "Java",
+    "kt": "Kotlin", "kts": "Kotlin", "swift": "Swift", "c": "C", "h": "C",
+    "cc": "C++", "cpp": "C++", "hpp": "C++", "vue": "Vue",
+}
+
+
+def file_language(path):
+    """Language of a changed file from its extension; unknown files are Other."""
+    name = path.rsplit("/", 1)[-1]
+    ext = name.rsplit(".", 1)[-1].lower() if "." in name else ""
+    return EXT_LANG.get(ext, "Other")
+
+
+def top_languages(sizes, limit=7, floor=0.005):
+    """Top languages by size, with everything under `floor` rolled into Other."""
+    total = sum(sizes.values()) or 1
+    top = [(name, size) for name, size in sizes.most_common()
+           if name != "Other" and size / total >= floor][:limit]
+    rows = [(name, round(size / total * 100, 1)) for name, size in top]
+    other = total - sum(size for _, size in top)
+    if other / total >= floor:
+        rows.append(("Other", round(other / total * 100, 1)))
+    return rows
 
 
 def merged_rows(repo_counts, patches=None):
@@ -88,6 +132,49 @@ def merged_pr_refs(token, username, repo):
     return numbers, shas
 
 
+def repo_language_map(user):
+    """name -> [(language, size)] for public repos the user committed or PR'd to."""
+    out = {}
+    for row in user["contributionsCollection"]["commitContributionsByRepository"]:
+        repo = row["repository"]
+        if repo and not repo["isPrivate"]:
+            out[repo["nameWithOwner"]] = [(e["node"]["name"], e["size"])
+                                          for e in repo["languages"]["edges"]]
+    for node in user["pullRequests"]["nodes"]:
+        repo = node["repository"]
+        if repo and not repo["isPrivate"]:
+            out.setdefault(repo["nameWithOwner"], [(e["node"]["name"], e["size"])
+                                                   for e in repo["languages"]["edges"]])
+    return out
+
+
+def _api_get(token, username, url):
+    request = urllib.request.Request(
+        url, headers={"Authorization": f"Bearer {token}", "User-Agent": f"{username}-profile"})
+    with urllib.request.urlopen(request, timeout=30) as response:
+        return json.load(response)
+
+
+def authored_commit_mix(token, username, repo, max_commits=200):
+    """Language mix and line totals from this user's authored commits on the
+    default branch. The commit detail API caps `files` at 300, so a huge commit
+    is counted partially."""
+    commits = _get_commits(token, username, repo, f"author={username}")
+    mix, added, deleted = Counter(), 0, 0
+    for commit in commits[:max_commits]:
+        try:
+            detail = _api_get(token, username,
+                              f"https://api.github.com/repos/{repo}/commits/{commit['sha']}")
+        except Exception:
+            continue
+        for changed in detail.get("files", []):
+            a, d = changed.get("additions", 0), changed.get("deletions", 0)
+            mix[file_language(changed.get("filename", ""))] += a
+            added += a
+            deleted += d
+    return mix, added, deleted
+
+
 def _get_commits(token, username, repo, query, max_pages=20):
     """All commits matching `query`, following Link pagination up to max_pages."""
     import re
@@ -124,7 +211,10 @@ def fetch_patches(token, username, repos):
         numbers, shas = merged_pr_refs(token, username, repo)
         n = count_patches(authored, shas) + count_coauthored(all_commits, username, set(numbers), shas)
         if n:
-            counts[repo] = contributors_total(token, username, repo)
+            try:
+                counts[repo] = contributors_total(token, username, repo)
+            except RuntimeError:
+                counts[repo] = n  # ponytail: stats still recomputing, keep the card buildable
     return counts
 
 
@@ -135,11 +225,10 @@ def stats_total(stats, username):
                if s.get("author") and s["author"]["login"].lower() == username.lower())
 
 
-def contributors_total(token, username, repo):
-    """Commit count GitHub's contributors stats attribute to `username` in `repo`.
-    Cached server-side and stale while rewritten; 202 — or a 200 whose payload has
-    no row for `username` yet — means it is recomputing."""
-    for _ in range(8):
+def contributors_activity(token, username, repo, attempts=8):
+    """(commits, additions, deletions) GitHub's contributors stats attribute to
+    `username` in `repo`, or None while the stats are still recomputing (202)."""
+    for _ in range(attempts):
         request = urllib.request.Request(
             f"https://api.github.com/repos/{repo}/stats/contributors",
             headers={"Authorization": f"Bearer {token}", "User-Agent": f"{username}-profile"},
@@ -152,11 +241,65 @@ def contributors_total(token, username, repo):
                 raise
             time.sleep(3)
             continue
-        if any(s.get("author") and s["author"]["login"].lower() == username.lower()
-               for s in stats):
-            return stats_total(stats, username)
+        rows = [s for s in stats
+                if s.get("author") and s["author"]["login"].lower() == username.lower()]
+        if rows:
+            return (stats_total(rows, username),
+                    sum(w["a"] for row in rows for w in row["weeks"]),
+                    sum(w["d"] for row in rows for w in row["weeks"]))
         time.sleep(3)
-    raise RuntimeError(f"{repo}: contributors stats never became ready")
+    return None
+
+
+def contributors_total(token, username, repo):
+    """Commit count from /stats/contributors; raises while GitHub recomputes it."""
+    activity = contributors_activity(token, username, repo)
+    if activity is None:
+        raise RuntimeError(f"{repo}: contributors stats never became ready")
+    return activity[0]
+
+
+def fetch_upstream_contributions(token, username, repo_langs):
+    """Lines and language mix of this user's work in third-party repos.
+
+    Line totals come from GitHub's contributor stats (the repo Insights number),
+    so reworked patch commits count; the language split comes from the files in
+    their landed commits, falling back to the repo's language mix when no commit
+    files are available."""
+    weighted, by_repo = Counter(), []
+    added_total = deleted_total = 0
+    for repo, langs in repo_langs.items():
+        if repo.split("/")[0].lower() == username.lower() or repo in EXCLUDE_REPOS:
+            continue
+        try:
+            mix, commit_add, commit_del = authored_commit_mix(token, username, repo)
+        except Exception:
+            mix, commit_add, commit_del = Counter(), 0, 0
+        try:
+            activity = contributors_activity(token, username, repo)
+        except Exception:
+            activity = None
+        added, deleted = ((activity[1], activity[2])
+                          if activity and activity[1] else (commit_add, commit_del))
+        if not added and not deleted:
+            continue
+        mix_total = sum(mix.values())
+        if mix_total:
+            shares = {lang: size / mix_total for lang, size in mix.items()}
+        else:
+            size_total = sum(size for _, size in langs) or 1
+            shares = {lang: size / size_total for lang, size in langs}
+        for lang, share in shares.items():
+            weighted[lang] += added * share
+        added_total += added
+        deleted_total += deleted
+        by_repo.append([repo.rsplit("/", 1)[-1], added, deleted])
+    by_repo.sort(key=lambda row: (-row[1], row[0]))
+    return {
+        "upstream_languages": top_languages(weighted),
+        "upstream_lines": {"added": added_total, "deleted": deleted_total},
+        "upstream_lines_by_repo": by_repo,
+    }
 
 
 def fetch_data(token, username=USERNAME):
@@ -173,12 +316,7 @@ def fetch_data(token, username=USERNAME):
         for edge in repo["languages"]["edges"]:
             name = edge["node"]["name"]
             sizes["Other" if name in NON_CODE else name] += edge["size"]
-    total = sum(sizes.values()) or 1
-    top = [(name, size) for name, size in sizes.most_common()
-           if name != "Other" and size / total >= 0.005][:7]
-    other = total - sum(size for _, size in top)
-    languages = [(name, round(size / total * 100, 1)) for name, size in top]
-    languages.append(("Other", round(other / total * 100, 1)))
+    languages = top_languages(sizes)
 
     calendar = user["contributionsCollection"]
     repo_counts = Counter(node["repository"]["nameWithOwner"]
@@ -187,6 +325,7 @@ def fetch_data(token, username=USERNAME):
                                  [name for name in repo_counts if name not in EXCLUDE_REPOS])
     patches_by_repo = sorted(((name.split("/")[-1], count) for name, count in patch_counts.items() if count),
                              key=lambda item: (-item[1], item[0]))
+    upstream = fetch_upstream_contributions(token, username, repo_language_map(user))
     return {
         "contributions": calendar["contributionCalendar"]["totalContributions"],
         "commits": calendar["totalCommitContributions"],
@@ -199,4 +338,5 @@ def fetch_data(token, username=USERNAME):
         "contributed_to": user["repositoriesContributedTo"]["totalCount"],
         "followers": user["followers"]["totalCount"],
         "languages": languages,
+        **upstream,
     }

@@ -1,6 +1,6 @@
 {
-  "contributions": 1336,
-  "commits": 615,
+  "contributions": 1337,
+  "commits": 616,
   "merged_prs": 78,
   "issues": 110,
   "merged_by_repo": [
@@ -75,6 +75,69 @@
     [
       "Other",
       2.6
+    ]
+  ],
+  "upstream_languages": [
+    [
+      "Go",
+      46.6
+    ],
+    [
+      "TypeScript",
+      41.7
+    ],
+    [
+      "Rust",
+      5.3
+    ],
+    [
+      "JavaScript",
+      3.7
+    ],
+    [
+      "Other",
+      2.7
+    ]
+  ],
+  "upstream_lines": {
+    "added": 31322,
+    "deleted": 2853
+  },
+  "upstream_lines_by_repo": [
+    [
+      "magpie",
+      13821,
+      731
+    ],
+    [
+      "maka",
+      12938,
+      1470
+    ],
+    [
+      "cc-switch",
+      2273,
+      442
+    ],
+    [
+      "cherry-studio",
+      1210,
+      192
+    ],
+    [
+      "multica",
+      803,
+      6
+    ],
+    [
+      "CLIProxyAPI",
+      161,
+      6
+    ],
+    [
+      "orca",
+      116,
+      6
     ]
   ]
 }
