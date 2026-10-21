@@ -7,7 +7,8 @@ from svg_cards import THEMES, skills, stats
 counts = Counter({"apache/maka": 33, "CherryHQ/cherry-studio": 8, "ggbdpq/cursor-loc": 3,
                   "farion1231/cc-switch": 3, "router-for-me/CLIProxyAPI": 2,
                   "nice-people-frontend-community/nice-21day": 1,
-                  "stablyai/orca": 1, "multica-ai/multica": 1, "yetone/magpie": 1})
+                  "stablyai/orca": 1, "multica-ai/multica": 1, "yetone/magpie": 1,
+                  "ggbdpq/qoder-proxy-api": 2})  # 自研仓不算第三方，直接跳过
 rows = merged_rows(counts)
 assert rows == [("maka", 33), ("cherry-studio", 8), ("cc-switch", 3), ("CLIProxyAPI", 2),
                 ("multica", 1), ("orca", 1), ("magpie", 1)], rows  # ties break by name

@@ -44,7 +44,8 @@ QUERY = """query($login: String!) { user(login: $login) {
 NON_CODE = {"CSS", "SCSS", "HTML", "PLpgSQL", "Shell", "Dockerfile", "Makefile",
             "Markdown", "Batchfile", "PowerShell", "INI", "TSQL"}
 # ponytail: 自研仓与社区活动仓不算第三方上游，逐个点名；以后有新类别再加规则
-EXCLUDE_REPOS = {"ggbdpq/cursor-loc", "nice-people-frontend-community/nice-21day"}
+EXCLUDE_REPOS = {"ggbdpq/cursor-loc", "nice-people-frontend-community/nice-21day",
+                 "ggbdpq/qoder-proxy-api"}
 # ponytail: extension map, not linguist; add a language when a new one shows up
 EXT_LANG = {
     "go": "Go", "ts": "TypeScript", "tsx": "TypeScript", "js": "JavaScript",

@@ -1,8 +1,8 @@
 {
-  "merged_recent": 52,
-  "contributions": 1338,
-  "commits": 617,
-  "merged_prs": 78,
+  "merged_recent": 56,
+  "contributions": 1360,
+  "commits": 627,
+  "merged_prs": 82,
   "issues": 110,
   "merged_by_repo": [
     [
@@ -11,7 +11,7 @@
     ],
     [
       "maka",
-      51
+      52
     ],
     [
       "orca",
@@ -27,7 +27,7 @@
     ],
     [
       "multica",
-      2
+      3
     ],
     [
       "CLIProxyAPI",
@@ -47,19 +47,19 @@
   "repositories": 9,
   "stars": 10,
   "contributed_to": 11,
-  "followers": 11,
+  "followers": 13,
   "languages": [
     [
       "TypeScript",
-      27.5
+      27.7
     ],
     [
       "C#",
-      21.9
+      21.8
     ],
     [
       "Rust",
-      20.8
+      20.7
     ],
     [
       "Go",
@@ -81,15 +81,15 @@
   "upstream_languages": [
     [
       "Go",
-      46.6
+      46.8
     ],
     [
       "TypeScript",
-      41.7
+      41.5
     ],
     [
       "Rust",
-      5.3
+      5.2
     ],
     [
       "JavaScript",
