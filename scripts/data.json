@@ -1,7 +1,7 @@
 {
   "merged_recent": 56,
-  "contributions": 1360,
-  "commits": 627,
+  "contributions": 1412,
+  "commits": 632,
   "merged_prs": 82,
   "issues": 110,
   "merged_by_repo": [
@@ -27,7 +27,7 @@
     ],
     [
       "multica",
-      3
+      4
     ],
     [
       "CLIProxyAPI",
@@ -37,7 +37,7 @@
   "patches_by_repo": [
     [
       "magpie",
-      82
+      85
     ],
     [
       "orca",
@@ -47,7 +47,7 @@
   "repositories": 9,
   "stars": 10,
   "contributed_to": 11,
-  "followers": 13,
+  "followers": 14,
   "languages": [
     [
       "TypeScript",
@@ -81,23 +81,23 @@
   "upstream_languages": [
     [
       "Go",
-      46.8
+      49.4
     ],
     [
       "TypeScript",
-      41.5
+      39.5
     ],
     [
       "Rust",
-      5.2
+      5.0
     ],
     [
       "JavaScript",
-      3.7
+      3.6
     ],
     [
       "Other",
-      2.7
+      2.5
     ]
   ]
 }
