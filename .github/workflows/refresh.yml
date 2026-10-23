@@ -19,13 +19,23 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      # PROFILE_TOKEN is a read-only PAT so the cards recompute daily. Without it the
-      # build keeps the cached data.json instead of failing.
+      # The built-in token reads the public GraphQL/REST data; without a token the
+      # build silently keeps the cached data.json and this job never commits.
       - run: python scripts/build.py
         env:
-          PROFILE_TOKEN: ${{ secrets.PROFILE_TOKEN }}
+          PROFILE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add assets scripts/data.json
+          # bump the ?v= cache-buster so the refreshed SVGs are actually re-fetched
+          python3 - <<'PY'
+          import pathlib, re, time
+          p = pathlib.Path("README.md")
+          v = time.strftime("%Y%m%d-%H", time.gmtime())
+          s = p.read_text()
+          s = re.sub(r'(stats-(?:dark|light)\.svg\?v=)[\w-]+', r'\g<1>' + v, s)
+          s = re.sub(r'(skills-(?:dark|light)\.svg\?v=)[\w-]+', r'\g<1>' + v, s)
+          p.write_text(s)
+          PY
+          git add assets scripts/data.json README.md
           git diff --cached --quiet || (git commit -m "Refresh profile cards" && git push)
