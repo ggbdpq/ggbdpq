@@ -1,8 +1,8 @@
 {
   "merged_recent": 55,
-  "contributions": 1581,
-  "commits": 740,
-  "merged_prs": 82,
+  "contributions": 1640,
+  "commits": 793,
+  "merged_prs": 83,
   "issues": 112,
   "merged_by_repo": [
     [
@@ -37,67 +37,67 @@
   "patches_by_repo": [
     [
       "magpie",
-      84
+      86
     ],
     [
       "orca",
-      12
+      14
     ]
   ],
   "repositories": 9,
   "stars": 10,
   "contributed_to": 11,
-  "followers": 13,
+  "followers": 14,
   "languages": [
     [
       "TypeScript",
-      25.7
+      26.0
     ],
     [
       "C#",
-      20.0
+      19.4
     ],
     [
       "Rust",
-      18.9
+      18.4
     ],
     [
       "Python",
-      16.3
+      17.3
     ],
     [
       "Go",
-      9.5
+      9.3
     ],
     [
       "JavaScript",
-      7.1
+      7.2
     ],
     [
       "Other",
-      2.4
+      2.3
     ]
   ],
   "upstream_languages": [
     [
-      "TypeScript",
-      59.0
+      "Go",
+      49.4
     ],
     [
-      "Go",
-      25.2
+      "TypeScript",
+      39.5
     ],
     [
       "Rust",
-      7.4
+      5.0
     ],
     [
       "JavaScript",
-      4.8
+      3.6
     ],
     [
       "Other",
-      3.6
+      2.5
     ]
   ]
 }
