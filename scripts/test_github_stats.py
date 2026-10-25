@@ -106,4 +106,37 @@ payload = [{"total": 42, "author": {"login": "ggbdpq"}},
            {"total": 7, "author": {"login": "GGBDPQ"}}]
 assert stats_total(payload, "ggbdpq") == 49, stats_total(payload, "ggbdpq")
 assert stats_total([], "ggbdpq") == 0
+
+# patch 总数取多次间隔读取的最大值:stats 接口在 push 后会吐出互相矛盾的缓存快照
+# (magpie 实测 84 -> 86 -> 84 -> 87),聚合只增不减,最大值即 Insights 稳定后的数字
+import github_stats as gs
+
+
+def _with_activity(seq):
+    seen = []
+
+    def fake(token, username, repo):
+        seen.append(seq.pop(0) if seq else None)
+        return (seen[-1], 0, 0) if seen[-1] is not None else None
+
+    return fake, seen
+
+
+orig_activity = gs.contributors_activity
+fake, seen = _with_activity([84, 86, 87])
+gs.contributors_activity = fake
+assert gs.contributors_total("t", "ggbdpq", "yetone/magpie", gap=0) == 87
+assert len(seen) == 3, seen  # 不收敛就读满次数取最大
+fake, seen = _with_activity([87, 87])
+gs.contributors_activity = fake
+assert gs.contributors_total("t", "ggbdpq", "yetone/magpie", gap=0) == 87
+assert len(seen) == 2, seen  # 连续两次一致即提前收工
+fake, seen = _with_activity([None, None])
+gs.contributors_activity = fake
+try:
+    gs.contributors_total("t", "ggbdpq", "yetone/magpie", reads=2, gap=0)
+    raise SystemExit("contributors_total should have raised RuntimeError")
+except RuntimeError:
+    pass
+gs.contributors_activity = orig_activity
 print("test_github_stats: ok")

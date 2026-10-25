@@ -261,12 +261,25 @@ def contributors_activity(token, username, repo, attempts=8):
     return None
 
 
-def contributors_total(token, username, repo):
-    """Commit count from /stats/contributors; raises while GitHub recomputes it."""
-    activity = contributors_activity(token, username, repo)
-    if activity is None:
-        raise RuntimeError(f"{repo}: contributors stats never became ready")
-    return activity[0]
+def contributors_total(token, username, repo, reads=3, gap=15):
+    """Commit count the Insights contributors graph shows for `username`. The endpoint
+    serves divergent cached snapshots around pushes (magpie: 84 -> 86 -> 84 -> 87 within
+    an hour), and rewritten-away commits stay counted (orca: 14 stats vs 1 reachable),
+    so the aggregate only grows — the largest of a few spaced reads is the settled
+    number the graph lands on."""
+    best, prev = 0, None
+    for i in range(reads):
+        activity = contributors_activity(token, username, repo)
+        if activity:
+            best = max(best, activity[0])
+            if activity[0] == prev:
+                break  # 连续两次一致,缓存已稳定
+            prev = activity[0]
+        if i + 1 < reads:
+            time.sleep(gap)
+    if best:
+        return best
+    raise RuntimeError(f"{repo}: contributors stats never became ready")
 
 
 def fetch_upstream_contributions(token, username, repo_langs):
@@ -335,7 +348,9 @@ def fetch_data(token, username=USERNAME):
         "merged_recent": merged_recent,
         "contributions": calendar["contributionCalendar"]["totalContributions"],
         "commits": calendar["totalCommitContributions"],
-        "merged_prs": user["pullRequests"]["totalCount"],
+        # totalCount 是独立落库的计数器，实测会和同一响应里的 nodes 矛盾（82 vs 83 行）；
+        # nodes 自洽，first:100 一页在可见的量级下用不满，超了再补分页
+        "merged_prs": len(user["pullRequests"]["nodes"]),
         "issues": user["issues"]["totalCount"],
         "merged_by_repo": merged_rows(repo_counts, patch_counts),
         "patches_by_repo": patches_by_repo,
