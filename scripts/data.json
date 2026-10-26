@@ -1,8 +1,8 @@
 {
   "merged_recent": 56,
-  "contributions": 1708,
+  "contributions": 1698,
   "commits": 797,
-  "merged_prs": 84,
+  "merged_prs": 83,
   "issues": 127,
   "merged_by_repo": [
     [
@@ -67,7 +67,7 @@
     ],
     [
       "Go",
-      9.3
+      9.2
     ],
     [
       "JavaScript",
