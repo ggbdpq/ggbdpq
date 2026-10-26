@@ -1,9 +1,9 @@
 {
-  "merged_recent": 55,
-  "contributions": 1669,
-  "commits": 796,
-  "merged_prs": 82,
-  "issues": 116,
+  "merged_recent": 56,
+  "contributions": 1708,
+  "commits": 797,
+  "merged_prs": 84,
+  "issues": 127,
   "merged_by_repo": [
     [
       "magpie",
@@ -27,7 +27,7 @@
     ],
     [
       "multica",
-      4
+      5
     ],
     [
       "CLIProxyAPI",
@@ -81,19 +81,19 @@
   "upstream_languages": [
     [
       "Go",
-      49.4
+      49.9
     ],
     [
       "TypeScript",
-      39.5
+      39.1
     ],
     [
       "Rust",
-      5.0
+      4.9
     ],
     [
       "JavaScript",
-      3.6
+      3.5
     ],
     [
       "Other",

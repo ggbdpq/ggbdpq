@@ -114,16 +114,22 @@ def count_coauthored(commits, username, pr_numbers=(), pr_shas=()):
     return n
 
 
-def merged_recent_count(token, username, days=30):
-    """Merged PRs across GitHub in the last `days` days — recent momentum."""
-    since = (date.today() - timedelta(days=days)).isoformat()
-    query = urllib.parse.quote(f"is:pr is:merged author:{username} merged:>={since}")
+def search_pr_total(token, username, extra=""):
+    """Merged-PR total from the search index. The index lags fresh merges but its
+    old rows never vanish, unlike GraphQL replica snapshots — an independent floor."""
+    query = urllib.parse.quote(f"is:pr is:merged author:{username} {extra}".strip())
     request = urllib.request.Request(
         f"https://api.github.com/search/issues?q={query}",
         headers={"Authorization": f"Bearer {token}", "User-Agent": f"{username}-profile"},
     )
     with urllib.request.urlopen(request, timeout=30) as response:
         return json.load(response)["total_count"]
+
+
+def merged_recent_count(token, username, days=30):
+    """Merged PRs across GitHub in the last `days` days — recent momentum."""
+    since = (date.today() - timedelta(days=days)).isoformat()
+    return search_pr_total(token, username, f"merged:>={since}")
 
 
 def merged_pr_refs(token, username, repo):
@@ -316,14 +322,33 @@ def fetch_upstream_contributions(token, username, repo_langs):
     }
 
 
+def fetch_user(token, username, reads=3, gap=15):
+    """User payload with the merged-PR total settled across reads. GraphQL serves
+    divergent replica snapshots: CI twice saw 82 while ground truth was 83, and the
+    counter can also disagree with its own node list. Merges are irreversible, so
+    keep the payload of the read with the largest max(len(nodes), totalCount)."""
+    best, best_n, prev = None, 0, None
+    for i in range(reads):
+        request = urllib.request.Request(
+            "https://api.github.com/graphql",
+            data=json.dumps({"query": QUERY, "variables": {"login": username}}).encode(),
+            headers={"Authorization": f"Bearer {token}", "User-Agent": f"{username}-profile"},
+        )
+        with urllib.request.urlopen(request, timeout=30) as response:
+            user = json.load(response)["data"]["user"]
+        n = max(len(user["pullRequests"]["nodes"]), user["pullRequests"]["totalCount"])
+        if n > best_n:
+            best, best_n = user, n
+        if n == prev:
+            break  # 连续两次一致,缓存已稳定
+        prev = n
+        if i + 1 < reads:
+            time.sleep(gap)
+    return best, best_n
+
+
 def fetch_data(token, username=USERNAME):
-    request = urllib.request.Request(
-        "https://api.github.com/graphql",
-        data=json.dumps({"query": QUERY, "variables": {"login": username}}).encode(),
-        headers={"Authorization": f"Bearer {token}", "User-Agent": f"{username}-profile"},
-    )
-    with urllib.request.urlopen(request, timeout=30) as response:
-        user = json.load(response)["data"]["user"]
+    user, merged_total = fetch_user(token, username)
 
     sizes = Counter()
     for repo in user["repositories"]["nodes"]:
@@ -344,13 +369,17 @@ def fetch_data(token, username=USERNAME):
         merged_recent = merged_recent_count(token, username)
     except Exception:
         merged_recent = None  # ponytail: rate-limited search keeps the cached row out
+    try:
+        search_total = search_pr_total(token, username)
+    except Exception:
+        search_total = 0  # ponytail: 限流时退回 GraphQL 多读取的最大值
     return {
         "merged_recent": merged_recent,
         "contributions": calendar["contributionCalendar"]["totalContributions"],
         "commits": calendar["totalCommitContributions"],
-        # totalCount 是独立落库的计数器，实测会和同一响应里的 nodes 矛盾（82 vs 83 行）；
-        # nodes 自洽，first:100 一页在可见的量级下用不满，超了再补分页
-        "merged_prs": len(user["pullRequests"]["nodes"]),
+        # 计数器与 nodes 清单在副本间都会短暂缩水(CI 两次见到 82,真值 83),合并不可逆,
+        # 取 GraphQL 多读取与搜索索引的最大值。first:100 一页在可见的量级下用不满,超了再补分页
+        "merged_prs": max(merged_total, search_total),
         "issues": user["issues"]["totalCount"],
         "merged_by_repo": merged_rows(repo_counts, patch_counts),
         "patches_by_repo": patches_by_repo,
