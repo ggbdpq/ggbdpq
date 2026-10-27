@@ -2,7 +2,7 @@
   "merged_recent": 57,
   "contributions": 1732,
   "commits": 801,
-  "merged_prs": 85,
+  "merged_prs": 84,
   "issues": 136,
   "merged_by_repo": [
     [
@@ -85,7 +85,7 @@
     ],
     [
       "TypeScript",
-      38.8
+      38.9
     ],
     [
       "Rust",
@@ -93,11 +93,11 @@
     ],
     [
       "JavaScript",
-      3.6
+      3.5
     ],
     [
       "Other",
-      2.6
+      2.5
     ]
   ]
 }
