@@ -1,9 +1,9 @@
 {
   "merged_recent": 57,
-  "contributions": 1727,
-  "commits": 800,
-  "merged_prs": 84,
-  "issues": 134,
+  "contributions": 1732,
+  "commits": 801,
+  "merged_prs": 85,
+  "issues": 136,
   "merged_by_repo": [
     [
       "magpie",
@@ -45,7 +45,7 @@
     ]
   ],
   "repositories": 9,
-  "stars": 10,
+  "stars": 11,
   "contributed_to": 11,
   "followers": 14,
   "languages": [
@@ -85,7 +85,7 @@
     ],
     [
       "TypeScript",
-      38.9
+      38.8
     ],
     [
       "Rust",
@@ -93,11 +93,11 @@
     ],
     [
       "JavaScript",
-      3.5
+      3.6
     ],
     [
       "Other",
-      2.5
+      2.6
     ]
   ]
 }
