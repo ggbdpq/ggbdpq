@@ -1,9 +1,9 @@
 {
-  "merged_recent": 57,
-  "contributions": 1738,
-  "commits": 805,
-  "merged_prs": 84,
-  "issues": 140,
+  "merged_recent": 56,
+  "contributions": 1764,
+  "commits": 808,
+  "merged_prs": 85,
+  "issues": 147,
   "merged_by_repo": [
     [
       "magpie",
@@ -15,7 +15,7 @@
     ],
     [
       "orca",
-      1
+      2
     ],
     [
       "cherry-studio",
@@ -37,17 +37,17 @@
   "patches_by_repo": [
     [
       "magpie",
-      95
+      96
     ],
     [
       "orca",
-      14
+      15
     ]
   ],
   "repositories": 9,
   "stars": 11,
   "contributed_to": 11,
-  "followers": 14,
+  "followers": 15,
   "languages": [
     [
       "TypeScript",
@@ -81,11 +81,11 @@
   "upstream_languages": [
     [
       "Go",
-      50.8
+      50.6
     ],
     [
       "TypeScript",
-      38.4
+      38.6
     ],
     [
       "Rust",
