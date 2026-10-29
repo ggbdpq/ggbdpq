@@ -348,7 +348,8 @@ def fetch_user(token, username, reads=3, gap=15):
 
 
 def fetch_data(token, username=USERNAME):
-    user, merged_total = fetch_user(token, username)
+    # 多读取仍在:副本滞后时(实测 CI 见到 82、真值 83)取最全的那份 payload
+    user, _ = fetch_user(token, username)
 
     sizes = Counter()
     for repo in user["repositories"]["nodes"]:
@@ -369,17 +370,15 @@ def fetch_data(token, username=USERNAME):
         merged_recent = merged_recent_count(token, username)
     except Exception:
         merged_recent = None  # ponytail: rate-limited search keeps the cached row out
-    try:
-        search_total = search_pr_total(token, username)
-    except Exception:
-        search_total = 0  # ponytail: 限流时退回 GraphQL 多读取的最大值
     return {
         "merged_recent": merged_recent,
         "contributions": calendar["contributionCalendar"]["totalContributions"],
         "commits": calendar["totalCommitContributions"],
-        # 计数器与 nodes 清单在副本间都会短暂缩水(CI 两次见到 82,真值 83),合并不可逆,
-        # 取 GraphQL 多读取与搜索索引的最大值。first:100 一页在可见的量级下用不满,超了再补分页
-        "merged_prs": max(merged_total, search_total),
+        # 只数公开仓:CI 的 bot 令牌天然看不见私有仓,本人令牌能看见,不过滤则两边视角
+        # 会轮流改写这个数字(nice-21day 转私有后实测 86/87 来回)。first:100 一页在可见的
+        # 量级下用不满,超了再补分页
+        "merged_prs": sum(1 for node in user["pullRequests"]["nodes"]
+                          if not node["repository"]["isPrivate"]),
         "issues": user["issues"]["totalCount"],
         "merged_by_repo": merged_rows(repo_counts, patch_counts),
         "patches_by_repo": patches_by_repo,
