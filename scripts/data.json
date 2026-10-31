@@ -1,8 +1,8 @@
 {
-  "merged_recent": 57,
-  "contributions": 1831,
-  "commits": 824,
-  "merged_prs": 86,
+  "merged_recent": 55,
+  "contributions": 1836,
+  "commits": 827,
+  "merged_prs": 87,
   "issues": 156,
   "merged_by_repo": [
     [
@@ -15,7 +15,7 @@
     ],
     [
       "orca",
-      2
+      3
     ],
     [
       "cherry-studio",
@@ -41,13 +41,13 @@
     ],
     [
       "orca",
-      15
+      16
     ]
   ],
   "repositories": 9,
   "stars": 11,
   "contributed_to": 11,
-  "followers": 17,
+  "followers": 16,
   "languages": [
     [
       "TypeScript",
