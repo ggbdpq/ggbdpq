@@ -289,10 +289,12 @@ def contributors_total(token, username, repo, reads=3, gap=15):
 
 
 def fetch_upstream_contributions(token, username, repo_langs):
-    """Language mix of this user's work in third-party repos. The language split
-    comes from the files in their landed commits; the repo weight is GitHub's
-    contributor-stats additions (the Insights number), falling back to the
-    commit files or the repo's own language mix when those are unavailable."""
+    """Language mix of this user's work in third-party repos, weighted by the landed
+    lines in their reachable commits (the squash/am products). GitHub's contributor-stats
+    additions are only a failure fallback: the aggregate keeps counting squashed and
+    rewritten-away commits (magpie 15,400 ++ vs roughly half that reachable), which
+    inflated whichever repo has the messier history — Go ranked above TypeScript even
+    though maka's 52 merged TS PRs outweigh magpie's patches."""
     weighted = Counter()
     for repo, langs in repo_langs.items():
         if repo.split("/")[0].lower() == username.lower() or repo in EXCLUDE_REPOS:
@@ -301,20 +303,22 @@ def fetch_upstream_contributions(token, username, repo_langs):
             mix = authored_commit_mix(token, username, repo)
         except Exception:
             mix = Counter()
-        try:
-            activity = contributors_activity(token, username, repo)
-        except Exception:
-            activity = None
-        weight = (activity[1] if activity and activity[1]
-                  else sum(mix.values()))
+        weight = sum(mix.values())
+        shares = {}
+        if weight:
+            shares = {lang: size / weight for lang, size in mix.items()}
+        else:
+            # 混合取不到才退回：仓库自身语言占比 × GitHub 统计增行（含幽灵，仅兜底）
+            try:
+                activity = contributors_activity(token, username, repo)
+            except Exception:
+                activity = None
+            if activity and activity[1]:
+                size_total = sum(size for _, size in langs) or 1
+                weight = activity[1]
+                shares = {lang: size / size_total for lang, size in langs}
         if not weight:
             continue
-        mix_total = sum(mix.values())
-        if mix_total:
-            shares = {lang: size / mix_total for lang, size in mix.items()}
-        else:
-            size_total = sum(size for _, size in langs) or 1
-            shares = {lang: size / size_total for lang, size in langs}
         for lang, share in shares.items():
             weighted[lang] += weight * share
     return {

@@ -1,7 +1,7 @@
 {
   "merged_recent": 55,
-  "contributions": 1836,
-  "commits": 827,
+  "contributions": 1837,
+  "commits": 828,
   "merged_prs": 87,
   "issues": 156,
   "merged_by_repo": [
@@ -37,7 +37,7 @@
   "patches_by_repo": [
     [
       "magpie",
-      111
+      112
     ],
     [
       "orca",
@@ -80,24 +80,24 @@
   ],
   "upstream_languages": [
     [
-      "Go",
-      54.8
+      "TypeScript",
+      51.2
     ],
     [
-      "TypeScript",
-      35.5
+      "Go",
+      35.4
     ],
     [
       "Rust",
-      4.3
+      6.2
     ],
     [
       "JavaScript",
-      3.1
+      4.1
     ],
     [
       "Other",
-      2.3
+      3.1
     ]
   ]
 }
