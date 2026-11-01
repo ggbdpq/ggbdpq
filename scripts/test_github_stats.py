@@ -140,3 +140,16 @@ except RuntimeError:
     pass
 gs.contributors_activity = orig_activity
 print("test_github_stats: ok")
+
+# patch 行垫底:某仓 stats 撞 202 风暴走 fallback 计 0 掉行时,用上次提交值补回
+from build import carry_over_patches
+
+fresh = {"patches_by_repo": [["magpie", 156]]}
+prev = {"patches_by_repo": [["magpie", 150], ["orca", 16]]}
+assert carry_over_patches(fresh, prev)["patches_by_repo"] == [["magpie", 156], ["orca", 16]]
+# 本轮成功取到的新值不被旧值压回
+fresh2 = {"patches_by_repo": [["magpie", 156], ["orca", 17]]}
+assert carry_over_patches(fresh2, prev)["patches_by_repo"] == [["magpie", 156], ["orca", 17]]
+assert carry_over_patches({"patches_by_repo": []}, {"patches_by_repo": [["orca", 16]]})["patches_by_repo"] == [["orca", 16]]
+assert carry_over_patches({"patches_by_repo": [["magpie", 156]]}, None)["patches_by_repo"] == [["magpie", 156]]
+print("test_github_stats: ok")

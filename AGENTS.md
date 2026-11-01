@@ -19,6 +19,7 @@ GitHub 个人主页仓(ggbdpq/ggbdpq)。刷新入口 `PROFILE_TOKEN=$(gh auth to
 ## 已知坑(改数前必读)
 
 - stats/contributors 与 GraphQL PR 清单都会跨副本吐矛盾快照:**聚合只增,多读取取最大**;单次读可能拿到 0 或少 1 的旧值(2026-10-31 实测:单读 0、二读 117)。
+- 仓库刚合并 PR/被推送后 stats 会进 202 重算窗口,`fetch_patches` 的 fallback 手工计数对 squash 流仓库(如 orca)会算 0 导致整行掉卡;build.py 的 `carry_over_patches` 用上次提交值垫底(补丁数只增不减,新值照常覆盖),2026-11-01 实测修复。
 - magpie(yetone/magpie)有"积压批量落盘"形态:维护者把积压 patch 整批 rebase 推上主干,作者日期保留旧日期;重落不重复计数,按新 SHA 对账;幽灵落盘(推送后被改写)使 stats 增量 > 可达条数,报告时给区间(可达数为下限)。
 - nice-21day 已转私有:公开口径下整体不入卡。
 - "今天"按 UTC+8 零点切;patch 基线取昨日收官值。
