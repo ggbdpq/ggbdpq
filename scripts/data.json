@@ -1,9 +1,9 @@
 {
   "merged_recent": 51,
-  "contributions": 1995,
-  "commits": 956,
-  "merged_prs": 91,
-  "issues": 158,
+  "contributions": 2008,
+  "commits": 958,
+  "merged_prs": 92,
+  "issues": 159,
   "merged_by_repo": [
     [
       "magpie",
@@ -18,11 +18,11 @@
       11
     ],
     [
-      "cc-switch",
-      8
+      "multica",
+      9
     ],
     [
-      "multica",
+      "cc-switch",
       8
     ],
     [
@@ -46,8 +46,8 @@
   ],
   "repositories": 9,
   "stars": 10,
-  "contributed_to": 11,
-  "followers": 17,
+  "contributed_to": 12,
+  "followers": 18,
   "languages": [
     [
       "TypeScript",
@@ -81,11 +81,11 @@
   "upstream_languages": [
     [
       "Go",
-      55.7
+      55.9
     ],
     [
       "TypeScript",
-      33.3
+      33.1
     ],
     [
       "JavaScript",
