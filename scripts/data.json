@@ -1,6 +1,6 @@
 {
-  "merged_recent": 39,
-  "contributions": 2096,
+  "merged_recent": 27,
+  "contributions": 2098,
   "commits": 1029,
   "merged_prs": 92,
   "issues": 160,
@@ -47,7 +47,7 @@
   "repositories": 9,
   "stars": 11,
   "contributed_to": 12,
-  "followers": 22,
+  "followers": 21,
   "languages": [
     [
       "TypeScript",
