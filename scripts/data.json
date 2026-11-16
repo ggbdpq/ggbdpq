@@ -1,7 +1,7 @@
 {
-  "merged_recent": 18,
-  "contributions": 2122,
-  "commits": 1046,
+  "merged_recent": 17,
+  "contributions": 2126,
+  "commits": 1047,
   "merged_prs": 93,
   "issues": 161,
   "merged_by_repo": [
@@ -37,7 +37,7 @@
   "patches_by_repo": [
     [
       "magpie",
-      307
+      308
     ],
     [
       "orca",
