@@ -1,6 +1,6 @@
 {
-  "merged_recent": 17,
-  "contributions": 2130,
+  "merged_recent": 16,
+  "contributions": 2131,
   "commits": 1048,
   "merged_prs": 93,
   "issues": 161,
@@ -14,10 +14,6 @@
       52
     ],
     [
-      "orca",
-      5
-    ],
-    [
       "cherry-studio",
       11
     ],
@@ -28,6 +24,10 @@
     [
       "cc-switch",
       8
+    ],
+    [
+      "orca",
+      5
     ],
     [
       "CLIProxyAPI",
