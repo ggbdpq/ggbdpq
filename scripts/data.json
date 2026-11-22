@@ -1,6 +1,6 @@
 {
   "merged_recent": 12,
-  "contributions": 2240,
+  "contributions": 2253,
   "commits": 1051,
   "merged_prs": 93,
   "issues": 161,
@@ -81,7 +81,7 @@
   "upstream_languages": [
     [
       "Go",
-      59.3
+      59.2
     ],
     [
       "TypeScript",
@@ -93,7 +93,7 @@
     ],
     [
       "Rust",
-      3.8
+      3.9
     ],
     [
       "Other",
